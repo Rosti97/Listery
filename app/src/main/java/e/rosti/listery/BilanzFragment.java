@@ -34,4 +34,6 @@ public class BilanzFragment extends Fragment {
         inflater.inflate(R.menu.menu_bilanz, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    // Halloooo wie geht's euch
 }
