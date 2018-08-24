@@ -60,4 +60,7 @@ public class EinkaufslisteFragment extends Fragment {
         inflater.inflate(R.menu.menu_einkaufsliste, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
+    // EInkaufsliste erstellen
 }
