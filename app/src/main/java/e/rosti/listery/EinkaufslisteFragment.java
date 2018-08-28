@@ -18,11 +18,6 @@ package e.rosti.listery;
 
         import static android.content.ContentValues.TAG;
 
-/**
- * Created by Belal on 18/09/16.
- */
-
-
 public class EinkaufslisteFragment extends Fragment {
 
     private View inflatedView;
