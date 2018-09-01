@@ -1,9 +1,12 @@
 package e.rosti.listery;
 
+import android.graphics.Color;
+
 public class Einkaufsitem {
 
     private boolean checked;
     private String product;
+    //private String roommate;
 
     public Einkaufsitem (boolean checked, String product) {
         this.checked = checked;
@@ -25,4 +28,5 @@ public class Einkaufsitem {
     public void setProduct(String product) {
         this.product = product;
     }
+
 }

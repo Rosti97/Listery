@@ -4,12 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EinkaufslisteFragment">
+    tools:context=".EinkaufslisteFragment"
+    >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/linearlayout_einkaufsliste"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imagebutton_einkaufsliste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:contentDescription="TODO"
+                android:src="@drawable/ic_action_name" />
+
+            <EditText
+                android:id="@+id/edittext_einkaufsliste"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:hint="@string/hint_einkaufsliste_eintrag" />
+
+            <ImageButton
+                android:id="@+id/addbutton_einkaufsliste"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_add_black_24dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textview_einkaufsliste_fuer_mb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:text="Hier steht für wen eingekauft wird"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="5dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@id/linearlayout_einkaufsliste"/>
 
     <ListView
         android:id="@+id/listview_einkaufsliste"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/divider"
+        android:layout_above="@id/button_einkauffertig"
         android:fastScrollEnabled="true" />
 
     <Button

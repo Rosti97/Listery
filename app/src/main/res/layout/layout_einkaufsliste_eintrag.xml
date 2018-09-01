@@ -12,31 +12,32 @@
         <CheckBox
             android:id="@+id/checkbox_einkaufsliste"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="false"/>
 
-        <EditText
-            android:id="@+id/edittext_einkaufsliste"
+        <TextView
+            android:id="@+id/textview_produkt_einkaufsliste"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="7dp"
+            android:textSize="20dp"
+            android:gravity="center_vertical"
             android:hint="@string/hint_einkaufsliste_eintrag"/>
 
-        <ImageButton
-            android:id="@+id/imagebutton_einkaufsliste"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginEnd="5dp"
-            android:contentDescription="TODO"
-            android:src="@drawable/ic_action_name" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textview_einkaufsliste"
+        android:id="@+id/textview_einkaufsliste_mb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
         android:text="Test, bitte noch entfernen"/>
+
 
 </LinearLayout>
