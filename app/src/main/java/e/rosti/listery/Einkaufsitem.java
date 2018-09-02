@@ -1,16 +1,16 @@
 package e.rosti.listery;
 
-import android.graphics.Color;
 
 public class Einkaufsitem {
 
     private boolean checked;
     private String product;
-    //private String roommate;
+    private String mitbewohner;
 
-    public Einkaufsitem (boolean checked, String product) {
+    public Einkaufsitem (boolean checked, String product, String mitbewohner) {
         this.checked = checked;
         this.product = product;
+        this.mitbewohner = mitbewohner;
     }
 
     public boolean isChecked() {
@@ -29,4 +29,11 @@ public class Einkaufsitem {
         this.product = product;
     }
 
+    public String getMitbewohner() {
+        return mitbewohner;
+    }
+
+    public void setMitbewohner(String mitbewohner) {
+        this.mitbewohner = mitbewohner;
+    }
 }

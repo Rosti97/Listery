@@ -66,6 +66,7 @@ public class EinkaufsAdapter extends ArrayAdapter<Einkaufsitem> {
 
 
         viewHolder.productName.setText(item.getProduct());
+        viewHolder.mbAnzeige.setText(item.getMitbewohner());
         viewHolder.checkBox.setChecked(item.isChecked());
 
 

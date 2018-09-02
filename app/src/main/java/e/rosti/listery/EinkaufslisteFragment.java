@@ -1,9 +1,11 @@
 package e.rosti.listery;
 
+        import android.content.DialogInterface;
         import android.os.Bundle;
         import android.support.annotation.Nullable;
         import android.support.v4.app.DialogFragment;
         import android.support.v4.app.Fragment;
+        import android.support.v7.app.AlertDialog;
         import android.util.Log;
         import android.view.KeyEvent;
         import android.view.LayoutInflater;
@@ -20,18 +22,23 @@ package e.rosti.listery;
         import android.widget.Toast;
 
         import java.util.ArrayList;
+        import java.util.Arrays;
+        import java.util.List;
 
         import static android.content.ContentValues.TAG;
 
 /** TODO
  *  1. Datenbank-Einbindung
- *  2. Kontextmenü für Mitbewohner
+ *  2. Intent für Preisangabe
  */
 public class EinkaufslisteFragment extends Fragment {
 
     private ArrayList<Einkaufsitem> einkaufsliste;
     private ListView listView;
     private EinkaufsAdapter adapter;
+
+    private boolean[]checkedPerson;
+    private List<String> mbList;
 
     private EditText editProdct;
     private TextView tvMitbewohner;
@@ -56,8 +63,9 @@ public class EinkaufslisteFragment extends Fragment {
 
     private void setupViews(View v) {
         editProdct = (EditText) v.findViewById(R.id.edittext_einkaufsliste);
-        tvMitbewohner = (TextView) v.findViewById(R.id.textview_einkaufsliste_fuer_mb);
         listView = v.findViewById(R.id.listview_einkaufsliste);
+        tvMitbewohner = (TextView) v.findViewById(R.id.textview_einkaufsliste_fuer_mb);
+
 
            /**OnKeyListener for handling "Enter"-Event**/
         editProdct.setOnKeyListener(new View.OnKeyListener() {
@@ -77,11 +85,12 @@ public class EinkaufslisteFragment extends Fragment {
         einkaufsliste = new ArrayList<>();
 
         /**Zwei Tests**/
-
-        Einkaufsitem item1 = new Einkaufsitem(false, "Eier");
-        Einkaufsitem item2 = new Einkaufsitem(true, "deine Mudda");
+        /**-------------------------------------------------------------**/
+        Einkaufsitem item1 = new Einkaufsitem(false, "Eier", "Für die WG");
+        Einkaufsitem item2 = new Einkaufsitem(true, "deine Mudda", "Für: mich");
         einkaufsliste.add(item1);
         einkaufsliste.add(item2);
+        /**-------------------------------------------------------------**/
 
         adapter = new EinkaufsAdapter(einkaufsliste, this.getContext());
 
@@ -91,8 +100,6 @@ public class EinkaufslisteFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
                 Einkaufsitem clickedItem= einkaufsliste.get(position);
 
                 if (clickedItem.isChecked()) {
@@ -122,7 +129,6 @@ public class EinkaufslisteFragment extends Fragment {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(TAG, "Button gedrückt");
                 Toast.makeText(getActivity().getApplicationContext(), "Button geklickt", Toast.LENGTH_LONG).show();
             }
         });
@@ -140,29 +146,80 @@ public class EinkaufslisteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity().getApplicationContext(),"mitbewohner", Toast.LENGTH_SHORT).show();
-
+                showAlertDialog();
             }
         });
     }
 
-    private void addProduct() {
-        String newProduct = editProdct.getText().toString();
-        if (!newProduct.equals("")) {
-            einkaufsliste.add(new Einkaufsitem(false, newProduct));
-            editProdct.setText("");
-            Toast.makeText(getActivity().getApplicationContext(),"add", Toast.LENGTH_SHORT).show();
-            adapter.notifyDataSetChanged();
-        } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Bitte Produkt eingeben", Toast.LENGTH_SHORT).show();
-        }
+
+    /**zeigt Dialog an, um Mitbewohner dem Einkauf zuzuordnen**/
+    private void showAlertDialog() {
+        final AlertDialog.Builder adBuilder = new AlertDialog.Builder(getActivity());
+
+        //Test String-Array -> hier sollte Datenbank einbindung stattfinden TODO
+        /**----------------------------------------------------------------------**/
+        String[] mitbewohner = new String[]{"mich", "wir", "max", "adam", "eva"};
+        /**----------------------------------------------------------------------**/
+
+        checkedPerson = new boolean[mitbewohner.length];
+        mbList = Arrays.asList(mitbewohner);
+
+        adBuilder.setTitle(R.string.dialog_title);
+        adBuilder.setMultiChoiceItems(mitbewohner, checkedPerson, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                checkedPerson[which] = isChecked;
+            }
+        });
+
+        adBuilder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                tvMitbewohner.setText("");
+                for (int i = 0; i<checkedPerson.length; i++) {
+                    boolean checked = checkedPerson[i];
+                    //je nach Angabe, wird ein anderer Text gesetzt
+                    if (checked) {
+                        if(checkedPerson[i] == checkedPerson[1]) {
+                            tvMitbewohner.setText("Für die WG");
+                            break;
+                        }else if(tvMitbewohner.getText().equals("")) {
+                            tvMitbewohner.setText("Für: " +tvMitbewohner.getText() + mbList.get(i));
+                        }else{
+                            tvMitbewohner.setText(tvMitbewohner.getText()+ ", " + mbList.get(i));
+                        }
+                    }
+                }
+            }
+        });
+
+        AlertDialog mbDialog = adBuilder.create();
+        mbDialog.show();
     }
 
-
+    /**wird der Liste hinzugefügt, entweder durch Enter oder durch Plus-Button**/
+    private void addProduct() {
+        if(tvMitbewohner.getText() != "") {
+            String newProduct = editProdct.getText().toString();
+            String mbProduct = tvMitbewohner.getText().toString();
+            if (!newProduct.equals("")) {
+                einkaufsliste.add(new Einkaufsitem(false, newProduct, mbProduct));
+                editProdct.setText("");
+                Toast.makeText(getActivity().getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "Bitte Produkt eingeben", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getActivity().getApplicationContext(), "Bitte angeben, für wen eingekauft wird!",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getActivity().setTitle("Einkaufsliste");
+        getActivity().setTitle(R.string.fragment_title_einkaufsliste);
 
     }
 
