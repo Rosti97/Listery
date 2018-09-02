@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PreiseingabeActivity">
+
+    <!--
+    <LinearLayout
+        android:id="@+id/linearlayout_preiseingabe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/tv_Produktueberschrift"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Produkte"
+            android:textSize="25dp"
+            android:textColor="@color/grey"
+            android:textStyle="bold"
+            android:outlineProvider="paddedBounds"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+        />
+
+        <TextView
+            android:id="@+id/tv_Preisueberschrift"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Preis"
+            android:textSize="25dp"
+            android:textColor="@color/grey"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+        />
+
+    </LinearLayout>
+    -->
+
+
+    <ListView
+        android:id="@+id/listview_preiseingabe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_einkauffertig"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        />
+
+    <Button
+        android:id="@+id/button_preiseingabe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="OK" />
+
+</RelativeLayout>

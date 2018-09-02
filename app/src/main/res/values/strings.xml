@@ -16,6 +16,7 @@
     <string name="dialog_title">Für wen wird das Produkt eingekauft?</string>
 
     <string name="fragment_title_einkaufsliste">Einkaufsliste</string>
+    <string name="title_activity_preiseingabe_adapter">PreiseingabeAdapter</string>
 
 
 </resources>

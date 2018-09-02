@@ -1,31 +1,28 @@
 package e.rosti.listery;
 
-        import android.content.DialogInterface;
-        import android.os.Bundle;
-        import android.support.annotation.Nullable;
-        import android.support.v4.app.DialogFragment;
-        import android.support.v4.app.Fragment;
-        import android.support.v7.app.AlertDialog;
-        import android.util.Log;
-        import android.view.KeyEvent;
-        import android.view.LayoutInflater;
-        import android.view.Menu;
-        import android.view.MenuInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.AdapterView;
-        import android.widget.Button;
-        import android.widget.EditText;
-        import android.widget.ImageButton;
-        import android.widget.ListView;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import java.util.ArrayList;
-        import java.util.Arrays;
-        import java.util.List;
-
-        import static android.content.ContentValues.TAG;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /** TODO
  *  1. Datenbank-Einbindung
@@ -67,7 +64,7 @@ public class EinkaufslisteFragment extends Fragment {
         tvMitbewohner = (TextView) v.findViewById(R.id.textview_einkaufsliste_fuer_mb);
 
 
-           /**OnKeyListener for handling "Enter"-Event**/
+        /**OnKeyListener for handling "Enter"-Event**/
         editProdct.setOnKeyListener(new View.OnKeyListener() {
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -84,7 +81,7 @@ public class EinkaufslisteFragment extends Fragment {
     private void addItems() {
         einkaufsliste = new ArrayList<>();
 
-        /**Zwei Tests**/
+        /**Zwei Tests TODO Entfernen**/
         /**-------------------------------------------------------------**/
         Einkaufsitem item1 = new Einkaufsitem(false, "Eier", "Für die WG");
         Einkaufsitem item2 = new Einkaufsitem(true, "deine Mudda", "Für: mich");
@@ -130,6 +127,15 @@ public class EinkaufslisteFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity().getApplicationContext(), "Button geklickt", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), PreiseingabeActivity.class);
+                ArrayList<Einkaufsitem> checkedItems = new ArrayList<>();
+                for (Einkaufsitem item: einkaufsliste) {
+                    if(item.isChecked()) {
+                        checkedItems.add(item);
+                    }
+                }
+                intent.putExtra("Gekauft", checkedItems);
+                startActivity(intent);
             }
         });
 
