@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.KeyEvent;
@@ -41,6 +42,8 @@ public class EinkaufslisteFragment extends Fragment {
     private TextView tvMitbewohner;
     private ImageButton ibMitbewohner;
     private ImageButton ibAdd;
+
+    private static final String KEY = "Gekauft";
 
     @Nullable
     @Override
@@ -113,8 +116,18 @@ public class EinkaufslisteFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Einkaufsitem longClickedItem = einkaufsliste.get(position);
+                final Einkaufsitem longClickedItem = einkaufsliste.get(position);
                 einkaufsliste.remove(longClickedItem);
+                Snackbar mySnackbar = Snackbar.make(view,
+                        R.string.snackbar_gelöscht, Snackbar.LENGTH_SHORT);
+                mySnackbar.setAction(R.string.undo_button, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        einkaufsliste.add(longClickedItem);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                mySnackbar.show();
                 adapter.notifyDataSetChanged();
                 return true;
             }
@@ -134,7 +147,7 @@ public class EinkaufslisteFragment extends Fragment {
                         checkedItems.add(item);
                     }
                 }
-                intent.putExtra("Gekauft", checkedItems);
+                intent.putExtra(KEY, checkedItems);
                 startActivity(intent);
             }
         });
@@ -151,7 +164,6 @@ public class EinkaufslisteFragment extends Fragment {
         ibMitbewohner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(),"mitbewohner", Toast.LENGTH_SHORT).show();
                 showAlertDialog();
             }
         });
@@ -187,10 +199,10 @@ public class EinkaufslisteFragment extends Fragment {
                     //je nach Angabe, wird ein anderer Text gesetzt
                     if (checked) {
                         if(checkedPerson[i] == checkedPerson[1]) {
-                            tvMitbewohner.setText("Für die WG");
+                            tvMitbewohner.setText(R.string.einkaufsliste_anzeige_WG);
                             break;
                         }else if(tvMitbewohner.getText().equals("")) {
-                            tvMitbewohner.setText("Für: " +tvMitbewohner.getText() + mbList.get(i));
+                            tvMitbewohner.setText("Für: " + tvMitbewohner.getText() + mbList.get(i));
                         }else{
                             tvMitbewohner.setText(tvMitbewohner.getText()+ ", " + mbList.get(i));
                         }
@@ -211,13 +223,13 @@ public class EinkaufslisteFragment extends Fragment {
             if (!newProduct.equals("")) {
                 einkaufsliste.add(new Einkaufsitem(false, newProduct, mbProduct));
                 editProdct.setText("");
-                Toast.makeText(getActivity().getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity().getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
                 adapter.notifyDataSetChanged();
             } else {
-                Toast.makeText(getActivity().getApplicationContext(), "Bitte Produkt eingeben", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.toast_produkteingabe, Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(getActivity().getApplicationContext(), "Bitte angeben, für wen eingekauft wird!",
+            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_mitbewohner_auswahl,
                     Toast.LENGTH_SHORT).show();
         }
     }
@@ -234,6 +246,12 @@ public class EinkaufslisteFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_einkaufsliste, menu);
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void deleteAfterPrice(ArrayList<Einkaufsitem> list) {
+        for (Einkaufsitem item: list) {
+            einkaufsliste.remove(item);
+        }
     }
 
 }

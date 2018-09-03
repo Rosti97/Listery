@@ -4,19 +4,24 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
 
     private ArrayList<Einkaufsitem> einkaufSet;
-    Context mContext;
+    private Context mContext;
 
     private static class ViewBox {
         TextView tvProduct;
@@ -55,14 +60,36 @@ public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
             result=convertView;
             convertView.setTag(viewBox);
 
+
+
         } else {
             viewBox = (ViewBox) convertView.getTag();
             result=convertView;
         }
 
-        Einkaufsitem item = getItem(position);
+        final Einkaufsitem item = getItem(position);
 
         viewBox.tvProduct.setText(item.getProduct());
+
+        //Preis wird gesetzt für Einkaufsitem
+        viewBox.etPreis.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                item.setPrice(viewBox.etPreis.getText().toString());
+            }
+        });
+
+
 
         return result;
     }

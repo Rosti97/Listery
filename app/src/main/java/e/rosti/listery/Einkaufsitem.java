@@ -9,6 +9,7 @@ public class Einkaufsitem implements Parcelable{
     private boolean checked;
     private String product;
     private String mitbewohner;
+    private String price;
 
     public Einkaufsitem (boolean checked, String product, String mitbewohner) {
         this.checked = checked;
@@ -40,8 +41,19 @@ public class Einkaufsitem implements Parcelable{
         this.mitbewohner = mitbewohner;
     }
 
+    public String getPrice() {
+        if (price != null) {
+            return price;
+        }
+            return "Null";
+    }
 
-    /**Implemnting Parcelable-Interface**/
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+
+    /**Implementing Parcelable-Interface**/
     public static final Parcelable.Creator<Einkaufsitem> CREATOR
             = new Parcelable.Creator<Einkaufsitem>() {
         public Einkaufsitem createFromParcel(Parcel in) {
