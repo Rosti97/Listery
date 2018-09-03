@@ -88,9 +88,7 @@ public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
                 item.setPrice(viewBox.etPreis.getText().toString());
             }
         });
-
-
-
+        
         return result;
     }
 }
