@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +31,9 @@ import java.util.List;
  *  2. Intent für Preisangabe
  */
 public class EinkaufslisteFragment extends Fragment {
+
+    private ListeryDatabase mDb;
+    private DaoAccess mDao;
 
     private ArrayList<Einkaufsitem> einkaufsliste;
     private ListView listView;
@@ -56,9 +60,35 @@ public class EinkaufslisteFragment extends Fragment {
         setupViews(v);
         setupButtons(v);
 
+        initDB();
+        initData();
+
         addItems();
 
         return v;
+    }
+
+    private void initDB(){
+        mDb = ListeryDatabase.getDatabase(getContext());
+        mDao = mDb.mdaoAccess();
+    }
+
+    //loads data from database
+    private void initData(){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                //Mitbewohner werden hier nur testweise erstellt, um Funktionalität zu testen - BEI RELEASE ENTFERNEN//
+                Roommates mate01 = new Roommates("Tobi", 0);
+                Roommates mate02 = new Roommates("Jesus", 0);
+                mDao.insertSingleRoommate(mate01);
+                mDao.insertSingleRoommate(mate02);
+                ///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                mbList = mDao.loadAllRoommates();
+            }
+        }).start();
     }
 
     private void setupViews(View v) {
@@ -175,15 +205,10 @@ public class EinkaufslisteFragment extends Fragment {
         final AlertDialog.Builder adBuilder = new AlertDialog.Builder(getActivity());
 
         //Test String-Array -> hier sollte Datenbank einbindung stattfinden TODO
-        /**----------------------------------------------------------------------**/
-        String[] mitbewohner = new String[]{"mich", "wir", "max", "adam", "eva"};
-        /**----------------------------------------------------------------------**/
-
-        checkedPerson = new boolean[mitbewohner.length];
-        mbList = Arrays.asList(mitbewohner);
+        checkedPerson = new boolean[mbList.size()];
 
         adBuilder.setTitle(R.string.dialog_title);
-        adBuilder.setMultiChoiceItems(mitbewohner, checkedPerson, new DialogInterface.OnMultiChoiceClickListener() {
+        adBuilder.setMultiChoiceItems(mbList.toArray(new String[0]), checkedPerson, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
                 checkedPerson[which] = isChecked;
@@ -254,4 +279,9 @@ public class EinkaufslisteFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy(){
+        mDb.close();
+        super.onDestroy();
+    }
 }
