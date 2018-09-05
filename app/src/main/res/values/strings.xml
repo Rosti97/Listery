@@ -2,7 +2,7 @@
     <string name="app_name">Listery</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Navigation</string>
+    <string name="nav_header_title">Listery</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
@@ -25,6 +25,12 @@
     <string name="einkaufsliste_anzeige_WG">Für die WG</string>
     <string name="für">Für: </string>
     <string name="key_intent">Gekauft</string>
-
+    <string name="appwidget_text">Einkaufsliste</string>
+    <string name="appwidget_text_detail">Einkaufsliste - Detail</string>
+    <string name="add_widget">Add widget</string>
+    <string name="anzeige_widget_one">Produkte in</string>
+    <string name="anzeige_widget_two">Einkaufsliste</string>
+    <string name="anzeige_widget_detail_korb_one">davon im</string>
+    <string name="anzeige_widget_detail_korb_two">Einkaufswagen</string>
 
 </resources>
