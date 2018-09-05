@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimaryTransparent"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:id="@+id/dialog_info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Gib bei 'Produkt' ein, was du kaufen willst" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/dialog_info_wg"
+            android:layout_width="@dimen/dialog_info_icon_space"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_wg" />
+
+        <TextView
+            android:id="@+id/dialog_info_wgtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Drücke Icon, um auszuwählen, für wen du das Produkt kaufst" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/dialog_info_add"
+            android:layout_width="@dimen/dialog_info_icon_space"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_add_black_24dp" />
+
+        <TextView
+            android:id="@+id/dialog_info_addtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Drücke Icon oder 'Enter', um das Produkt der Einkaufsliste hinzuzufügen." />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <ImageView
+            android:id="@+id/dialog_info_checkbox"
+            android:layout_width="@dimen/dialog_info_icon_space"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_box_24dp" />
+
+        <TextView
+            android:id="@+id/dialog_info_checktext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Eingefügte Produkte können abgehakt werden, sobald sie eingekauft sind" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="5dp">
+
+        <Button
+            android:id="@+id/dialog_info_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/str_button_einkaufsliste" />
+
+        <TextView
+            android:id="@+id/dialog_info_buttontext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Bei Klick auf den Button, kannst du die Preise für die Produkte angeben. Ein weiterer Klick auf den Button entfernt die Produkte und aktualisiert die Bilanz" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -8,6 +8,7 @@
     <dimen name="widget_header">18dp</dimen>
     <dimen name="widget_logo">18dp</dimen>
     <dimen name="cell_size">40dp</dimen>
+    <dimen name="dialog_info_icon_space">25dp</dimen>
 
     <!--
 Refer to App Widget Documentation for margin information
