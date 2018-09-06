@@ -274,40 +274,6 @@ public class EinkaufslisteFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.einkaufsliste_info:
-                showInfoDialog();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void showInfoDialog() {
-        final AlertDialog.Builder adBuilder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-
-        adBuilder.setTitle("Info");
-        adBuilder.setIcon(R.drawable.ic_info_outline_black_24dp);
-        adBuilder.setView(inflater.inflate(R.layout.layout_infodialog_einkaufsliste, null));
-        adBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-
-                    }
-                });
-        AlertDialog iDialog = adBuilder.create();
-        iDialog.show();
-    }
-
-    public void deleteAfterPrice(ArrayList<Einkaufsitem> list) {
-        for (Einkaufsitem item: list) {
-            einkaufsliste.remove(item);
-        }
-    }
 
     @Override
     public void onDestroy(){
