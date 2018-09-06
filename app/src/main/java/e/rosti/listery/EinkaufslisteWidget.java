@@ -23,6 +23,7 @@ public class EinkaufslisteWidget extends AppWidgetProvider {
         /**TODO DATENBANK**/
         //Einkaufsliste holen
         ArrayList<Einkaufsitem> list = new ArrayList<>();
+        //Test-Einträge entfernen!
         list.add(new Einkaufsitem(false,"Eier", "Max"));
         list.add(new Einkaufsitem(true, "Milch", "Ich"));
         list.add(new Einkaufsitem(true, "ne Sexpuppe", "WG"));

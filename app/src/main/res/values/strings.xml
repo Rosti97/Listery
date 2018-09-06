@@ -33,4 +33,10 @@
     <string name="anzeige_widget_detail_korb_one">davon im</string>
     <string name="anzeige_widget_detail_korb_two">Einkaufswagen</string>
 
+    <string name="einkauf_info_produkt">Gib bei \"Produkt\" ein, was du kaufen willst!</string>
+    <string name="einkauf_info_mb">Drücke Icon, um auszuwählen, für wen du das Produkt kaufst</string>
+    <string name="einkauf_info_add">Drücke Icon oder \"Enter\", um das Produkt der Einkaufsliste hinzuzufügen</string>
+    <string name="einkauf_info_checkbox">Eingefügte Produkte können abgehakt werden, sobald sie eingekauft sind</string>
+    <string name="einkauf_info_button">Bei Klick auf den Button, kannst du die Preise für die Produkte angeben. \nEin weiterer Klick auf den Button entfernt die eingekauften Produkte und aktualisiert die Bilanz</string>
+
 </resources>

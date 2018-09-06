@@ -1,5 +1,6 @@
 package e.rosti.listery;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,8 +9,10 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -60,14 +63,31 @@ public class MainActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.einkaufsliste_setting) {
-            return true;
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.einkaufsliste_info:
+                showListInfoDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    private void showListInfoDialog() {
+        final AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        adBuilder.setTitle("Info");
+        adBuilder.setIcon(R.drawable.ic_info_outline_black_24dp);
+        adBuilder.setView(inflater.inflate(R.layout.layout_infodialog_einkaufsliste, null));
+        adBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        AlertDialog iDialog = adBuilder.create();
+        iDialog.show();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
