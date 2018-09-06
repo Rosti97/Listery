@@ -69,12 +69,20 @@ public class PreiseingabeActivity extends AppCompatActivity {
 
                 itemsWithPrice = new ArrayList<>();
                 for (Einkaufsitem item: gekaufteItems) {
-                    if (item.getPrice() != null) {
+                    if (item.getPrice() != null && !item.getPrice().equals("Null")) {
                         itemsWithPrice.add(item);
+                        Log.i("TESTGRÖßE", "Preisliste: " + itemsWithPrice.size());
                     }
                 }
                 /** TODO Items (itemsWithPrice) aus Einkaufsliste-Datenbank löschen und in Bilanz einfügen**/
 
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                if(itemsWithPrice.size() == gekaufteItems.size()) {
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(PreiseingabeActivity.this, "Bitte bei allen Produkten den Preis angeben!", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

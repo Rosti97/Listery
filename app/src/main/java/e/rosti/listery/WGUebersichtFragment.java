@@ -52,33 +52,23 @@ public class WGUebersichtFragment extends Fragment {
 
 
     private void showAlertDialogMB(){
+        AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        ab.setTitle("Neuer Mitbewohner: ");
 
-        final LayoutInflater inflater = this.getLayoutInflater();
+        ab.setView(inflater.inflate(R.layout.layout_mb_eintrag_neu, null));
 
-        final Dialog dialogMb = new Dialog (getActivity());
-        dialogMb.setTitle("Mitbewohner");
-        //dialogMb.setMessage("Name");
-
-        final View view = inflater.inflate(R.layout.layout_mb_eintrag_neu, null);
-
-        dialogMb.setContentView(inflater.inflate(R.layout.layout_mb_eintrag_neu, null));
-
-        et = (EditText) dialogMb.findViewById(R.id.edittext_newMb);
-        Button btn = dialogMb.findViewById(R.id.button_newmb);
-        btn.setOnClickListener(new View.OnClickListener() {
+        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                String mb = et.getText().toString();
-                Toast.makeText(getActivity().getApplicationContext(), "Name: " + mb, Toast.LENGTH_LONG).show();
-                dialogMb.dismiss();
-
+            public void onClick(DialogInterface dialog, int which) {
+                Dialog d = (Dialog) dialog;
+                et = (EditText) d.findViewById(R.id.edittext_newMb);
+                String name = et.getText().toString();
+                Toast.makeText(getActivity().getApplicationContext(), "Name:" + name, Toast.LENGTH_LONG).show();
             }
         });
-
-
-// hallo
-
-        dialogMb.show();
+        AlertDialog mbD = ab.create();
+        mbD.show();
     }
 
     @Override
