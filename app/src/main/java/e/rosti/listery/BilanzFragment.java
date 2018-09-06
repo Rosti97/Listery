@@ -8,9 +8,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class BilanzFragment extends Fragment {
+
+    private TextView textGesamt;
+    private TextView betragGesamt;
+    private ListView mbListe;
+    private ArrayList<Mitbewohner> listeMbArray;
+   // private MitbewohnerAdapter mbAdapter;
+
 
     @Nullable
     @Override
@@ -18,8 +29,31 @@ public class BilanzFragment extends Fragment {
         //returning our layout file
         //change R.layout.yourlayoutfilename for each of your fragments
         setHasOptionsMenu(true);
-        return inflater.inflate(R.layout.fragment_bilanz, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_bilanz, container, false);
+
+        setUpView(v);
+//        addMB();
+
+        return v;
+
+
+
     }
+
+    private void setUpView( View v ){
+        textGesamt = (TextView) v.findViewById(R.id.Gesamtbetrag);
+        betragGesamt = (TextView) v.findViewById(R.id.bilanz_gesamt_euro);
+        mbListe = (ListView) v.findViewById(R.id.lv_mb_bilanz);
+    }
+
+
+    /*private void addMB(){
+        listeMbArray = new ArrayList<>();
+
+        mbAdapter = new MitbewohnerAdapter(listeMbArray, this.getContext());
+        mbListe.setAdapter(mbAdapter);
+    }*/
 
 
     @Override

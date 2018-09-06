@@ -3,13 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearlayout_bilanz"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Bilanz"
-        android:id="@+id/textView"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Gesamtbetrag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="13dp"
+            android:text="Gesamt"
+            android:textSize="32sp" />
+
+        <TextView
+            android:id="@+id/bilanz_gesamt_euro"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="13dp"
+            android:gravity="end"
+            android:text="0 €"
+            android:textSize="32sp" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divider_bilanz"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/linearlayout_bilanz"
+        android:background="@android:color/darker_gray">
+
+    </View>
+
+    <ListView
+        android:id="@+id/lv_mb_bilanz"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_bilanz">
+
+    </ListView>
 
 </RelativeLayout>
