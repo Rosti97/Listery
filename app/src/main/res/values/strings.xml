@@ -39,4 +39,15 @@
     <string name="einkauf_info_checkbox">Eingefügte Produkte können abgehakt werden, sobald sie eingekauft sind</string>
     <string name="einkauf_info_button">Bei Klick auf den Button, kannst du die Preise für die Produkte angeben. \nEin weiterer Klick auf den Button entfernt die eingekauften Produkte und aktualisiert die Bilanz</string>
 
+    <array name="bilanz_menu">
+        <item>Komplettzahlung</item>
+        <item>Teilzahlung</item>
+        <item>Bearbeiten</item>
+    </array>
+
+    <array name="wg_menu">
+        <item>Bearbeiten</item>
+        <item>Löschen</item>
+    </array>
+
 </resources>

@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -28,7 +29,7 @@ public class WGUebersichtFragment extends Fragment {
 
     private ListView lvMitbewohner;
     private EditText et;
-    private BilanzAdapter adapter;
+    private UebersichtsAdapter adapter;
     private ArrayList<Roommates> listeMb;
 
     @Nullable
@@ -48,10 +49,59 @@ public class WGUebersichtFragment extends Fragment {
             }
         });
 
-        adapter = new BilanzAdapter(listeMb, this.getContext());
+        listeMb = new ArrayList<>();
+
+        adapter = new UebersichtsAdapter(listeMb, this.getContext());
         lvMitbewohner = (ListView)v.findViewById(R.id.listview_mitbewohner);
+        lvOnClick();
+
+
         lvMitbewohner.setAdapter(adapter);
         return v;
+    }
+
+    private void lvOnClick() {
+        lvMitbewohner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+
+                AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
+                
+                ab.setTitle("Wähle eine Option:");
+
+                ab.setItems(R.array.wg_menu, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which == 0) {
+                            changeName(position);
+                        }
+                    }
+                });
+
+                AlertDialog mbD = ab.create();
+                mbD.show();
+            }
+        });
+
+    }
+
+    private void changeName(int position) {
+        AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        ab.setTitle(listeMb.get(position) + " ändern in:");
+
+        ab.setView(inflater.inflate(R.layout.layout_mb_eintrag_neu, null));
+
+        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Dialog d = (Dialog) dialog;
+                et = (EditText) d.findViewById(R.id.edittext_newMb);
+                String name = et.getText().toString();
+                /**TODO Datenbank**/
+            }
+        });
+        AlertDialog mbD = ab.create();
+        mbD.show();
     }
 
 
@@ -78,11 +128,8 @@ public class WGUebersichtFragment extends Fragment {
 
     private void addMB( String name) {
         Roommates mb1 = new Roommates( name, 0);
-        Roommates max = new Roommates( name, 0);
 
-        listeMb = new ArrayList<>();
         listeMb.add(mb1);
-        listeMb.add(max);
         adapter.notifyDataSetChanged();
 
     }

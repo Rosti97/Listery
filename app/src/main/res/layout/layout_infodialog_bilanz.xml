@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Hier siehst du, aller, wie viel Schulden jeder bei dir hat. \nWenn du auf Namen klickst, kannst du angeben, ob du komplett Geld oder nur bisschen Geld bekommen hast. \nFalls du krass die Bilanz ändern willst, kannst du das auch, indem du krass auf Bearbeiten drückst! YO!"/>
+
+</android.support.constraint.ConstraintLayout>

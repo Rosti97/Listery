@@ -63,10 +63,11 @@ public class EinkaufsAdapter extends ArrayAdapter<Einkaufsitem> {
         Einkaufsitem item = getItem(position);
 
 
-        viewBox.productName.setText(item.getProduct());
-        viewBox.mbAnzeige.setText(item.getMitbewohner());
-        viewBox.checkBox.setChecked(item.isChecked());
-
+        if(item != null) {
+            viewBox.productName.setText(item.getProduct());
+            viewBox.mbAnzeige.setText(item.getMitbewohner());
+            viewBox.checkBox.setChecked(item.isChecked());
+        }
 
         return result;
     }

@@ -68,9 +68,49 @@ public class MainActivity extends AppCompatActivity
             case R.id.einkaufsliste_info:
                 showListInfoDialog();
                 return true;
+            case R.id.bilanz_info:
+                showBilanzInfoDialog();
+                return true;
+            case R.id.wg_info:
+                showWgInfoDialog();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void showWgInfoDialog() {
+        final AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        adBuilder.setTitle("Info");
+        adBuilder.setIcon(R.drawable.ic_info_outline_black_24dp);
+        adBuilder.setView(inflater.inflate(R.layout.layout_infodialog_wg, null));
+        adBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        AlertDialog iDialog = adBuilder.create();
+        iDialog.show();
+    }
+
+    private void showBilanzInfoDialog() {
+        final AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        adBuilder.setTitle("Info");
+        adBuilder.setIcon(R.drawable.ic_info_outline_black_24dp);
+        adBuilder.setView(inflater.inflate(R.layout.layout_infodialog_bilanz, null));
+        adBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        AlertDialog iDialog = adBuilder.create();
+        iDialog.show();
     }
 
     private void showListInfoDialog() {
