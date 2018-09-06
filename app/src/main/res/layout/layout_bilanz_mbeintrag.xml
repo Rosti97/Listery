@@ -24,7 +24,7 @@
                 android:id="@+id/name_mb1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
+                android:layout_weight="3"
                 android:layout_gravity="start"
                 android:text="Name1"
                 android:textSize="30sp" />
@@ -33,19 +33,21 @@
                 android:id="@+id/Betrag_mb1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:gravity="end"
                 android:text="0 €"
                 android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/bilanz_dots"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_dots"
+                android:layout_weight="1"
+                />
         </LinearLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray">
-
-        </View>
 <!--
         <LinearLayout
             android:layout_width="match_parent"
