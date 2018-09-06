@@ -22,11 +22,14 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class WGUebersichtFragment extends Fragment {
 
     private ListView lvMitbewohner;
     private EditText et;
-
+    private BilanzAdapter adapter;
+    private ArrayList<Roommates> listeMb;
 
     @Nullable
     @Override
@@ -45,8 +48,9 @@ public class WGUebersichtFragment extends Fragment {
             }
         });
 
+        adapter = new BilanzAdapter(listeMb, this.getContext());
         lvMitbewohner = (ListView)v.findViewById(R.id.listview_mitbewohner);
-
+        lvMitbewohner.setAdapter(adapter);
         return v;
     }
 
@@ -65,10 +69,22 @@ public class WGUebersichtFragment extends Fragment {
                 et = (EditText) d.findViewById(R.id.edittext_newMb);
                 String name = et.getText().toString();
                 Toast.makeText(getActivity().getApplicationContext(), "Name:" + name, Toast.LENGTH_LONG).show();
+                addMB(name);
             }
         });
         AlertDialog mbD = ab.create();
         mbD.show();
+    }
+
+    private void addMB( String name) {
+        Roommates mb1 = new Roommates( name, 0);
+        Roommates max = new Roommates( name, 0);
+
+        listeMb = new ArrayList<>();
+        listeMb.add(mb1);
+        listeMb.add(max);
+        adapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -83,5 +99,7 @@ public class WGUebersichtFragment extends Fragment {
         inflater.inflate(R.menu.menu_wguebersicht, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+
 
 }
