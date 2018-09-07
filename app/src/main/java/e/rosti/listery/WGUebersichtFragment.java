@@ -3,6 +3,8 @@ package e.rosti.listery;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,8 +26,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class WGUebersichtFragment extends Fragment {
+
+    private MateViewModel mMateViewModel;
 
     private ListView lvMitbewohner;
     private EditText et;
@@ -47,15 +52,22 @@ public class WGUebersichtFragment extends Fragment {
             }
         });
 
+        mMateViewModel = ViewModelProviders.of(this).get(MateViewModel.class);
+
+        mMateViewModel.getmCurrentMate().observe(this, new Observer<List<Mate>>() {
+            @Override
+            public void onChanged(@Nullable List<Mate> mates) {
+                adapter.addItem(mates);
+            }
+        });
+
         setupViewAdapter(v);
 
         return v;
     }
 
     private void setupViewAdapter(View v) {
-        listeMb = new ArrayList<>();
-
-        adapter = new UebersichtsAdapter(listeMb, this.getContext());
+        adapter = new UebersichtsAdapter(new ArrayList<Mate>(), this.getContext());
         lvMitbewohner = (ListView)v.findViewById(R.id.listview_mitbewohner);
         lvOnClick();
 
@@ -93,18 +105,19 @@ public class WGUebersichtFragment extends Fragment {
 
     /**Dialog, wenn Mitbewohner gelöscht werden soll**/
     private void delete(int position) {
+        final Mate selectedMate = adapter.getItem(position);
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         /**TODO Datenbank? um den Namen anzuzeigen?**/
-        ab.setTitle(listeMb.get(position).toString() + R.string.text_löschen);
+        ab.setTitle(selectedMate.getName() +" "+  getContext().getString(R.string.text_löschen));
 
         ab.setMessage(R.string.message_löschen);
 
         ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                /**TODO Datenbank**/
+                mMateViewModel.deleteMate(selectedMate);
             }
         });
 
@@ -121,10 +134,10 @@ public class WGUebersichtFragment extends Fragment {
 
     /**Hier wird der Dialog angezeigt, um den Namen eines Mitbewohners zu bearbeiten**/
     private void changeName(int position) {
+        final Mate selectedMate = adapter.getItem(position);
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        ab.setTitle(listeMb.get(position).toString() + R.string.title_change_name);
-
+        ab.setTitle(selectedMate.getName() +" "+ getContext().getString(R.string.title_change_name));
         ab.setView(inflater.inflate(R.layout.layout_mb_eintrag_neu, null));
 
         ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
@@ -133,7 +146,8 @@ public class WGUebersichtFragment extends Fragment {
                 Dialog d = (Dialog) dialog;
                 et = (EditText) d.findViewById(R.id.edittext_newMb);
                 String name = et.getText().toString();
-                /**TODO Datenbank**/
+                selectedMate.setName(name);
+                mMateViewModel.updateName(selectedMate);
             }
         });
         AlertDialog mbD = ab.create();
@@ -154,24 +168,12 @@ public class WGUebersichtFragment extends Fragment {
                 Dialog d = (Dialog) dialog;
                 et = (EditText) d.findViewById(R.id.edittext_newMb);
                 String name = et.getText().toString();
-                /**TODO Datenbank**/
-                Toast.makeText(getActivity().getApplicationContext(), "Name:" + name, Toast.LENGTH_LONG).show();
-                addMB(name);
+                Mate mate = new Mate(name, 0);
+                mMateViewModel.insertMate(mate);
             }
         });
         AlertDialog mbD = ab.create();
         mbD.show();
-    }
-
-    /**TODO muss evtl mit Datenbankeinbindung gelöscht oder verändert werden
-     * neuer Roommate wird erstellt und der Liste, die an Listview gebunden ist hinzugefügt
-     */
-    private void addMB( String name) {
-        Mate mb1 = new Mate( name, 0);
-
-        listeMb.add(mb1);
-        adapter.notifyDataSetChanged();
-
     }
 
     @Override
@@ -186,7 +188,4 @@ public class WGUebersichtFragment extends Fragment {
         inflater.inflate(R.menu.menu_wguebersicht, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
-
-
 }

@@ -10,11 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UebersichtsAdapter extends ArrayAdapter<Mate> {
 
     private Context context;
-    private ArrayList<Mate> data;
+    private List<Mate> data;
 
     public UebersichtsAdapter(ArrayList<Mate> data, Context context) {
         super(context, R.layout.layout_wg_row, data);
@@ -37,6 +38,10 @@ public class UebersichtsAdapter extends ArrayAdapter<Mate> {
         return data.get(position);
     }
 
+    public void addItem(List<Mate> mates){
+        data = mates;
+        notifyDataSetChanged();
+    }
 
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {

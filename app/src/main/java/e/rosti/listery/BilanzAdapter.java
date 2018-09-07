@@ -11,13 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class BilanzAdapter extends ArrayAdapter<Mate> {
 
     private Context context;
-    private ArrayList<Mate> data;
+    private List<Mate> data;
 
-    public BilanzAdapter(ArrayList<Mate> data, Context context) {
+    public BilanzAdapter(List<Mate> data, Context context) {
         super(context, R.layout.layout_bilanz_mbeintrag, data);
         this.context = context;
         this.data = data;
@@ -39,6 +40,10 @@ public class BilanzAdapter extends ArrayAdapter<Mate> {
         return data.get(position);
     }
 
+    public void addItem(List<Mate> mates){
+        data = mates;
+        notifyDataSetChanged();
+    }
 
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
@@ -52,7 +57,6 @@ public class BilanzAdapter extends ArrayAdapter<Mate> {
             viewBox.tvName = (TextView) convertView.findViewById(R.id.name_mb1);
             viewBox.tvBilanz = (TextView) convertView.findViewById(R.id.Betrag_mb1);
             viewBox.ivDots = (ImageView) convertView.findViewById(R.id.bilanz_dots);
-
 
             result=convertView;
             convertView.setTag(viewBox);
