@@ -12,12 +12,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class BilanzAdapter extends ArrayAdapter<Roommates> {
+public class BilanzAdapter extends ArrayAdapter<Mate> {
 
     private Context context;
-    private ArrayList<Roommates> data;
+    private ArrayList<Mate> data;
 
-    public BilanzAdapter(ArrayList<Roommates> data, Context context) {
+    public BilanzAdapter(ArrayList<Mate> data, Context context) {
         super(context, R.layout.layout_bilanz_mbeintrag, data);
         this.context = context;
         this.data = data;
@@ -35,7 +35,7 @@ public class BilanzAdapter extends ArrayAdapter<Roommates> {
     }
 
     @Override
-    public Roommates getItem(int position) {
+    public Mate getItem(int position) {
         return data.get(position);
     }
 
@@ -62,11 +62,11 @@ public class BilanzAdapter extends ArrayAdapter<Roommates> {
             result=convertView;
         }
 
-       Roommates item = getItem(position);
+       Mate item = getItem(position);
 
 
-        viewBox.tvName.setText(item.getMateName());
-        viewBox.tvBilanz.setText(item.getMateBalance() + "€");
+        viewBox.tvName.setText(item.getName());
+        viewBox.tvBilanz.setText(item.getBalance() + "€");
 
         return result;
     }

@@ -10,10 +10,11 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class EinkaufsAdapter extends ArrayAdapter<Einkaufsitem> {
+public class EinkaufsAdapter extends ArrayAdapter<Item> {
 
-    private ArrayList<Einkaufsitem> einkaufSet;
+    private List<Item> einkaufSet;
     Context mContext;
 
     private static class ViewBox {
@@ -22,23 +23,33 @@ public class EinkaufsAdapter extends ArrayAdapter<Einkaufsitem> {
         CheckBox checkBox;
     }
 
-    public EinkaufsAdapter(ArrayList<Einkaufsitem> data, Context context) {
+    public EinkaufsAdapter(List<Item> data, Context context) {
         super(context, R.layout.layout_einkaufsliste_eintrag, data);
-        this.einkaufSet = data;
-        this.mContext = context;
-
+        if(data != null){
+            einkaufSet = data;
+        }
+        else{
+            einkaufSet = new ArrayList<>();
+        }
+        mContext = context;
     }
+
     @Override
     public int getCount() {
         return einkaufSet.size();
     }
 
     @Override
-    public Einkaufsitem getItem(int position) {
+    public Item getItem(int position) {
         return einkaufSet.get(position);
     }
 
+    public void addItems(List<Item> items){
+        this.einkaufSet = items;
+        notifyDataSetChanged();
+    }
 
+    @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 
@@ -60,14 +71,26 @@ public class EinkaufsAdapter extends ArrayAdapter<Einkaufsitem> {
             result=convertView;
         }
 
-        Einkaufsitem item = getItem(position);
-
-
-        if(item != null) {
-            viewBox.productName.setText(item.getProduct());
-            viewBox.mbAnzeige.setText(item.getMitbewohner());
-            viewBox.checkBox.setChecked(item.isChecked());
+        if(!einkaufSet.isEmpty()) {
+            Item currentItem = getItem(position);
+            List<Mate> allMates = currentItem.getMates();
+            String text = allMates.get(0).getName();
+            if(allMates.size()>1) {
+                for (int i = 1; i < allMates.size(); i++) {
+                    text += ", " + allMates.get(i).getName();
+                }
+            }
+            viewBox.productName.setText(currentItem.getName());
+            viewBox.mbAnzeige.setText(text);
+            viewBox.checkBox.setChecked(currentItem.isChecked());
         }
+        else {
+            viewBox.productName.setText("");
+            viewBox.mbAnzeige.setText("");
+            viewBox.checkBox.setChecked(false);
+        }
+
+
 
         return result;
     }

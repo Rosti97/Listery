@@ -1,5 +1,7 @@
 package e.rosti.listery;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,12 +9,10 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /** TODO
@@ -33,15 +32,17 @@ import java.util.List;
  */
 public class EinkaufslisteFragment extends Fragment {
 
-    private ListeryDatabase mDb;
-    private DaoAccess mDao;
+    private MateViewModel mMateViewModel;
+    private ItemViewModel mItemViewModel;
 
-    private ArrayList<Einkaufsitem> einkaufsliste;
+    private List<Item> einkaufsliste;
     private ListView listView;
     private EinkaufsAdapter adapter;
 
-    private boolean[]checkedPerson;
-    private List<String> mbList;
+    private boolean[] checkedPerson;
+    private List<Mate> allMates;
+    private String[] mateNames;
+    private List<Mate> selectedMates;
 
     private EditText editProdct;
     private TextView tvMitbewohner;
@@ -61,35 +62,38 @@ public class EinkaufslisteFragment extends Fragment {
         setupViews(v);
         setupButtons(v);
 
-        initDB();
-        initData();
+        adapter = new EinkaufsAdapter(new ArrayList<Item>(), this.getContext());
+
+        listView.setAdapter(adapter);
+
+        mMateViewModel = ViewModelProviders.of(this).get(MateViewModel.class);
+
+        mMateViewModel.getmCurrentMate().observe(this, new Observer<List<Mate>>() {
+            @Override
+            public void onChanged(@Nullable List<Mate> mates) {
+                allMates = mates;
+                List<String> tempNameList = new ArrayList<String>();
+                for(Mate temp : mates){
+                    tempNameList.add(temp.getName());
+                }
+                mateNames = new String[tempNameList.size()];
+                mateNames = tempNameList.toArray(mateNames);
+            }
+        });
+
+        mItemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+
+        mItemViewModel.getAllItems().observe(this, new Observer<List<Item>>() {
+            @Override
+            public void onChanged(@Nullable List<Item> items) {
+                einkaufsliste = items;
+                adapter.addItems(items);
+            }
+        });
 
         addItems();
 
         return v;
-    }
-
-    private void initDB(){
-        mDb = ListeryDatabase.getDatabase(getContext());
-        mDao = mDb.mdaoAccess();
-    }
-
-    //loads data from database
-    private void initData(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                //Mitbewohner werden hier nur testweise erstellt, um Funktionalität zu testen - BEI RELEASE ENTFERNEN//
-                Roommates mate01 = new Roommates("Tobi", 0);
-                Roommates mate02 = new Roommates("Jesus", 0);
-                mDao.insertSingleRoommate(mate01);
-                mDao.insertSingleRoommate(mate02);
-                ///////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                mbList = mDao.loadAllRoommates();
-            }
-        }).start();
     }
 
     private void setupViews(View v) {
@@ -113,25 +117,11 @@ public class EinkaufslisteFragment extends Fragment {
     }
 
     private void addItems() {
-        einkaufsliste = new ArrayList<>();
-
-        /**Zwei Tests TODO Entfernen**/
-        /**-------------------------------------------------------------**/
-        Einkaufsitem item1 = new Einkaufsitem(false, "Eier", "Für die WG");
-        Einkaufsitem item2 = new Einkaufsitem(true, "deine Mudda", "Für: mich");
-        einkaufsliste.add(item1);
-        einkaufsliste.add(item2);
-        /**-------------------------------------------------------------**/
-
-        adapter = new EinkaufsAdapter(einkaufsliste, this.getContext());
-
-        listView.setAdapter(adapter);
-
         /**OnItemClick for handling checkbox**/
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Einkaufsitem clickedItem= einkaufsliste.get(position);
+                Item clickedItem= adapter.getItem(position);
 
                 if (clickedItem.isChecked()) {
                     clickedItem.setChecked(false);
@@ -147,19 +137,20 @@ public class EinkaufslisteFragment extends Fragment {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                final Einkaufsitem longClickedItem = einkaufsliste.get(position);
-                einkaufsliste.remove(longClickedItem);
+                final Item longClickedItem = adapter.getItem(position);
+
+                //Deletes item from database
+                mItemViewModel.deleteItem(longClickedItem);
+
                 Snackbar mySnackbar = Snackbar.make(view,
                         R.string.snackbar_gelöscht, Snackbar.LENGTH_SHORT);
                 mySnackbar.setAction(R.string.undo_button, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        einkaufsliste.add(longClickedItem);
-                        adapter.notifyDataSetChanged();
+                        mItemViewModel.insertItem(longClickedItem);
                     }
                 });
                 mySnackbar.show();
-                adapter.notifyDataSetChanged();
                 return true;
             }
         });
@@ -172,8 +163,8 @@ public class EinkaufslisteFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity().getApplicationContext(), "Button geklickt", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), PreiseingabeActivity.class);
-                ArrayList<Einkaufsitem> checkedItems = new ArrayList<>();
-                for (Einkaufsitem item: einkaufsliste) {
+                ArrayList<Item> checkedItems = new ArrayList<>();
+                for (Item item: einkaufsliste) {
                     if(item.isChecked()) {
                         checkedItems.add(item);
                     }
@@ -205,34 +196,34 @@ public class EinkaufslisteFragment extends Fragment {
     private void showAlertDialog() {
         final AlertDialog.Builder adBuilder = new AlertDialog.Builder(getActivity());
 
-        //Test String-Array -> hier sollte Datenbank einbindung stattfinden TODO
-        checkedPerson = new boolean[mbList.size()];
-
+        checkedPerson = new boolean[mateNames.length];
+        selectedMates = new ArrayList<Mate>();
         adBuilder.setTitle(R.string.dialog_title);
-        adBuilder.setMultiChoiceItems(mbList.toArray(new String[0]), checkedPerson, new DialogInterface.OnMultiChoiceClickListener() {
+        adBuilder.setMultiChoiceItems(mateNames, checkedPerson, new DialogInterface.OnMultiChoiceClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                checkedPerson[which] = isChecked;
+            public void onClick(DialogInterface dialogInterface, int position, boolean isChecked) {
+                if (isChecked){
+                    if(!selectedMates.contains(allMates.get(position))){
+                        selectedMates.add(allMates.get(position));
+                    }
+                    else
+                        selectedMates.remove(position);
+                }
             }
         });
 
         adBuilder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                tvMitbewohner.setText("");
-                for (int i = 0; i<checkedPerson.length; i++) {
-                    boolean checked = checkedPerson[i];
-                    //je nach Angabe, wird ein anderer Text gesetzt
-                    if (checked) {
-                        if(checkedPerson[i] == checkedPerson[1]) {
-                            tvMitbewohner.setText(R.string.einkaufsliste_anzeige_WG);
-                            break;
-                        }else if(tvMitbewohner.getText().equals("")) {
-                            tvMitbewohner.setText("Für: " + tvMitbewohner.getText() + mbList.get(i));
-                        }else{
-                            tvMitbewohner.setText(tvMitbewohner.getText()+ ", " + mbList.get(i));
+            public void onClick(DialogInterface dialogInterface, int which) {
+                if(!selectedMates.isEmpty()) {
+                    String text = selectedMates.get(0).getName();
+                    if(selectedMates.size()>1) {
+                        for (int i = 1; i < checkedPerson.length; i++) {
+                            text += ", " + selectedMates.get(i).getName();
                         }
                     }
+                    tvMitbewohner.setText(text);
+                    addProduct();
                 }
             }
         });
@@ -245,12 +236,10 @@ public class EinkaufslisteFragment extends Fragment {
     private void addProduct() {
         if(tvMitbewohner.getText() != "") {
             String newProduct = editProdct.getText().toString();
-            String mbProduct = tvMitbewohner.getText().toString();
             if (!newProduct.equals("")) {
-                einkaufsliste.add(new Einkaufsitem(false, newProduct, mbProduct));
+                Item item = new Item(newProduct,0,selectedMates);
+                mItemViewModel.insertItem(item);
                 editProdct.setText("");
-                //Toast.makeText(getActivity().getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
-                adapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), R.string.toast_produkteingabe, Toast.LENGTH_SHORT).show();
             }
@@ -272,12 +261,5 @@ public class EinkaufslisteFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_einkaufsliste, menu);
         super.onCreateOptionsMenu(menu, inflater);
-    }
-
-
-    @Override
-    public void onDestroy(){
-        mDb.close();
-        super.onDestroy();
     }
 }

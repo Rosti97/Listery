@@ -5,17 +5,16 @@ import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
-import android.arch.persistence.room.Update;
 
 import java.util.List;
 
 @Dao
 public interface DaoAccess {
     @Insert
-    void insertSingleRoommate(Roommates roommate);
+    void insertSingleMate(Mate mate);
 
     @Insert
-    void insertRoommates(Roommates... roommates);
+    void insertMates(Mate... mates);
 
     @Insert
     void insertSingleItem(Item item);
@@ -23,28 +22,18 @@ public interface DaoAccess {
     @Insert
     void insertItems(Item... items);
 
-    @Query("SELECT MAX(itemID) FROM purchases")
-    int getCurrentItemID();
+    @Delete
+    void deleteMate(Mate mate);
 
-    /* returns the assigned persons to every item on purchase list */
-    @Query("SELECT mateName FROM roommates r, purchases p WHERE r.mateID = p.mateID AND itemID = :search")
-    List<String> loadAssignedMates(int search);
+    @Delete
+    void deleteItem(Item item);
 
     /* this query returns all purchases - should be used to display information in listView */
-    @Query("SELECT * FROM purchases GROUP BY itemID")
-    List<Item> loadAllPurchases();
+    @Query("SELECT * FROM item")
+    LiveData<List<Item>> loadAllItems();
 
-    /* deletes entry from database */
-    @Query("DELETE FROM purchases WHERE itemID = :search")
-    void deleteByPurchaseID(int search);
+    /* returns all roommates */
+    @Query("SELECT * FROM mate")
+    LiveData<List<Mate>> loadAllMates();
 
-    /* return the names of all roommates */
-    @Query("SELECT mateName FROM roommates")
-    List<String> loadAllRoommates();
-
-    @Query("SELECT * FROM purchases")
-    List<Item> getAllItems();
-
-    @Query("SELECT * FROM roommates")
-    List<Roommates> getAllRoommates();
 }

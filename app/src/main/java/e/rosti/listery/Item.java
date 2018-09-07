@@ -1,57 +1,67 @@
 package e.rosti.listery;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.support.annotation.NonNull;
+import android.arch.persistence.room.TypeConverters;
 
-@Entity(tableName = "purchases", primaryKeys = {"mateID", "itemID"}, foreignKeys = @ForeignKey(entity = Roommates.class, parentColumns = "mateID", childColumns = "mateID"))
+import java.util.List;
+
+@Entity
 public class Item {
-    @NonNull
-    private int itemID;
-    @NonNull
-    private int mateID;
-    private float itemPrice;
-    private String itemName;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    private String name;
+    private float price;
+    @TypeConverters(DataConverter.class)
+    private List<Mate> mates;
+    @Ignore
+    private boolean checked;
 
-    public Item(@NonNull int itemID, @NonNull int mateID, float itemPrice, String itemName) {
-        this.itemID = itemID;
-        this.mateID = mateID;
-        this.itemPrice = itemPrice;
-        this.itemName = itemName;
+    public Item(String name, float price, List<Mate> mates) {
+        this.name = name;
+        this.price = price;
+        this.mates = mates;
+        checked = false;
     }
 
-    public void setItemID(@NonNull int itemID) {
-        this.itemID = itemID;
+    public int getId() {
+        return id;
     }
 
-    public void setMateID(@NonNull int mateID) {
-        this.mateID = mateID;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setItemPrice(float itemPrice) {
-        this.itemPrice = itemPrice;
+    public String getName() {
+        return name;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @NonNull
-    public int getItemID() {
-        return itemID;
+    public float getPrice() {
+        return price;
     }
 
-    @NonNull
-    public int getMateID() {
-        return mateID;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    public float getItemPrice() {
-        return itemPrice;
+    public List<Mate> getMates() {
+        return mates;
     }
 
-    public String getItemName() {
-        return itemName;
+    public void setMates(List<Mate> mates) {
+        this.mates = mates;
+    }
+
+    public boolean isChecked() {
+        return checked;
+    }
+
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 }

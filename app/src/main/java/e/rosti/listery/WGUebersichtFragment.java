@@ -30,7 +30,7 @@ public class WGUebersichtFragment extends Fragment {
     private ListView lvMitbewohner;
     private EditText et;
     private UebersichtsAdapter adapter;
-    private ArrayList<Roommates> listeMb;
+    private ArrayList<Mate> listeMb;
 
     @Nullable
     @Override
@@ -167,7 +167,7 @@ public class WGUebersichtFragment extends Fragment {
      * neuer Roommate wird erstellt und der Liste, die an Listview gebunden ist hinzugefügt
      */
     private void addMB( String name) {
-        Roommates mb1 = new Roommates( name, 0);
+        Mate mb1 = new Mate( name, 0);
 
         listeMb.add(mb1);
         adapter.notifyDataSetChanged();

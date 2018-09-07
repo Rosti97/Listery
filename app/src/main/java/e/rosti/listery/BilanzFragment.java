@@ -27,7 +27,7 @@ public class BilanzFragment extends Fragment {
     private TextView textGesamt;
     private TextView betragGesamt;
     private ListView listView;
-    private ArrayList<Roommates> listeMbArray;
+    private ArrayList<Mate> listeMbArray;
     private BilanzAdapter adapter;
 
 
@@ -56,8 +56,8 @@ public class BilanzFragment extends Fragment {
 
         /**Zwei Tests TODO Entfernen**/
         /**-------------------------------------------------------------**/
-        Roommates mb1 = new Roommates("Max" , 5);
-        Roommates mb2 = new Roommates("Moritz", 10);
+        Mate mb1 = new Mate("Max" , 5);
+        Mate mb2 = new Mate("Moritz", 10);
         listeMbArray.add(mb1);
         listeMbArray.add(mb2);
         /**-------------------------------------------------------------**/
