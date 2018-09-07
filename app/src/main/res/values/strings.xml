@@ -50,4 +50,14 @@
         <item>Löschen</item>
     </array>
 
+    <string name="text_löschen"> löschen?</string>
+    <string name="message_löschen">ACHTUNG: Die Bilanz wird ebenfalls gelöscht, auch wenn diese noch nicht beglichen ist!</string>
+    <string name="title_onclick">Wähle eine Option:</string>
+    <string name="title_change_name"> ändern in:</string>
+    <string name="title_new_roommate">Neuer Mitbewohner: </string>
+    <string name="title_fragment_wg">WG-Übersicht</string>
+
+    <string name="infodialog_bilanz">Hier siehst du wieviel dir jeder deiner Mitbewohner schuldet. \nSobald du auf einen Mitbewohner klickst, kannst du angeben, wie viel zurückgezahlt wurder oder die Bilanz ändern. \nKomplettzahlung: Die Bilanz wird auf 0€ gesetzt. \nTeilzahlung: Du kannst angeben, wie viel zurückgezahl wurde. \nBearbeiten: Hier kannst du eine neue Bilanz eingeben.</string>
+    <string name="infodialog_wg">Hier siehst du deine Mitbewohner. \nUm einen Mitbewohner hinzuzufügen, drückst du unten auf den Button und gibst den Namen ein. \nSobald du auf einen Mitbewohner tippst, kannst du seinen Namen ändern oder ihn aus der Liste löschen.</string>
+
 </resources>

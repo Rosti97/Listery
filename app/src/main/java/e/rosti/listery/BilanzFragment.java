@@ -42,7 +42,7 @@ public class BilanzFragment extends Fragment {
 
         setUpView(v);
 
-        testData();
+        initListView();
 
 
         return v;
@@ -51,7 +51,7 @@ public class BilanzFragment extends Fragment {
 
     }
 
-    private void testData() {
+    private void initListView() {
         listeMbArray = new ArrayList<>();
 
         /**Zwei Tests TODO Entfernen**/
@@ -71,12 +71,10 @@ public class BilanzFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity().getApplicationContext(), "Knuff", Toast.LENGTH_SHORT).show();
-
 
                 AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                ab.setTitle("Wähle eine Option:");
+                ab.setTitle(R.string.title_onclick);
 
                 ab.setItems(R.array.bilanz_menu, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {

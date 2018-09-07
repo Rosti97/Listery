@@ -43,40 +43,47 @@ public class WGUebersichtFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-               Toast.makeText(getActivity(), "Fab gedrückt", Toast.LENGTH_SHORT).show();
                showAlertDialogMB();
-
             }
         });
 
+        setupViewAdapter(v);
+
+        return v;
+    }
+
+    private void setupViewAdapter(View v) {
         listeMb = new ArrayList<>();
 
         adapter = new UebersichtsAdapter(listeMb, this.getContext());
         lvMitbewohner = (ListView)v.findViewById(R.id.listview_mitbewohner);
         lvOnClick();
 
-
         lvMitbewohner.setAdapter(adapter);
-        return v;
     }
 
+    /**Hier wird der Dialog angezeigt, um die Optionen für einen Mitbewohner auszuwählen**/
     private void lvOnClick() {
         lvMitbewohner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
-                
-                ab.setTitle("Wähle eine Option:");
+                ab.setTitle(R.string.wg_title_onclick);
 
                 ab.setItems(R.array.wg_menu, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(getActivity().getApplicationContext(), ": " + which, Toast.LENGTH_LONG).show();
+                        //0=Bearbeiten
                         if(which == 0) {
                             changeName(position);
                         }
+                        //1=Löschen
+                        if (which == 1){
+                            delete(position);
+                        }
                     }
                 });
-
                 AlertDialog mbD = ab.create();
                 mbD.show();
             }
@@ -84,14 +91,43 @@ public class WGUebersichtFragment extends Fragment {
 
     }
 
+    /**Dialog, wenn Mitbewohner gelöscht werden soll**/
+    private void delete(int position) {
+        AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        /**TODO Datenbank? um den Namen anzuzeigen?**/
+        ab.setTitle(listeMb.get(position).toString() + R.string.text_löschen);
+
+        ab.setMessage(R.string.message_löschen);
+
+        ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                /**TODO Datenbank**/
+            }
+        });
+
+        ab.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog mbD = ab.create();
+        mbD.show();
+    }
+
+    /**Hier wird der Dialog angezeigt, um den Namen eines Mitbewohners zu bearbeiten**/
     private void changeName(int position) {
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        ab.setTitle(listeMb.get(position) + " ändern in:");
+        ab.setTitle(listeMb.get(position).toString() + R.string.title_change_name);
 
         ab.setView(inflater.inflate(R.layout.layout_mb_eintrag_neu, null));
 
-        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Dialog d = (Dialog) dialog;
@@ -104,20 +140,21 @@ public class WGUebersichtFragment extends Fragment {
         mbD.show();
     }
 
-
+    /** Hier wird der Dialog angezeigt, um einen neuen Mitbewohner zu erstellen**/
     private void showAlertDialogMB(){
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        ab.setTitle("Neuer Mitbewohner: ");
+        ab.setTitle(R.string.title_new_roommate);
 
         ab.setView(inflater.inflate(R.layout.layout_mb_eintrag_neu, null));
 
-        ab.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Dialog d = (Dialog) dialog;
                 et = (EditText) d.findViewById(R.id.edittext_newMb);
                 String name = et.getText().toString();
+                /**TODO Datenbank**/
                 Toast.makeText(getActivity().getApplicationContext(), "Name:" + name, Toast.LENGTH_LONG).show();
                 addMB(name);
             }
@@ -126,6 +163,9 @@ public class WGUebersichtFragment extends Fragment {
         mbD.show();
     }
 
+    /**TODO muss evtl mit Datenbankeinbindung gelöscht oder verändert werden
+     * neuer Roommate wird erstellt und der Liste, die an Listview gebunden ist hinzugefügt
+     */
     private void addMB( String name) {
         Roommates mb1 = new Roommates( name, 0);
 
@@ -138,7 +178,7 @@ public class WGUebersichtFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("WG-Übersicht");
+        getActivity().setTitle(R.string.title_fragment_wg);
     }
 
     @Override

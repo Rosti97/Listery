@@ -7,7 +7,6 @@
         android:id="@+id/tv_infodialog_wg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hier siehst du deine Mitbewohner. \nUm einen Mitbewohner hinzuzufügen, druckst du einfach auf Button! Dann gibst du Namen ein! \nWenn du auf bereits MB druckst, kannst du Namen ändern odder ihn voll krass aus WG werfen. YO!"
-        />
+        android:text="@string/infodialog_wg"/>
 
 </android.support.constraint.ConstraintLayout>
