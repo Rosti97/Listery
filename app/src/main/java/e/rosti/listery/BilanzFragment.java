@@ -67,7 +67,7 @@ public class BilanzFragment extends Fragment {
         listView.setAdapter(adapter);
 
 
-        /**OnItemClick for handling checkbox**/
+        /**Dialog wird angezeigt (Komplettzahlung/Teilzahlung/Bearbeiten)**/
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -78,8 +78,17 @@ public class BilanzFragment extends Fragment {
 
                 ab.setItems(R.array.bilanz_menu, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
+                        switch (which) {
+                            case 0:
+                                //TODO Datenbank Bilanz auf 0
+                                break;
+                            case 1:
+                                payment(which);
+                                break;
+                            case 2:
+                                editBalance(which);
+                                break;
+                        }
                     }
                 });
 
@@ -88,6 +97,14 @@ public class BilanzFragment extends Fragment {
             }
         });
 
+    }
+
+    private void editBalance(int which) {
+        //TODO
+    }
+
+    private void payment(int which) {
+        //TODO
     }
 
     private void setUpView( View v ){

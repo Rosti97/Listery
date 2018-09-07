@@ -69,7 +69,7 @@ public class WGUebersichtFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
                 AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
-                ab.setTitle(R.string.wg_title_onclick);
+                ab.setTitle(R.string.title_onclick);
 
                 ab.setItems(R.array.wg_menu, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
