@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 
 public class BilanzFragment extends Fragment {
@@ -41,9 +42,7 @@ public class BilanzFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_bilanz, container, false);
 
         setUpView(v);
-
         initListView();
-
 
         return v;
 
@@ -99,14 +98,50 @@ public class BilanzFragment extends Fragment {
 
     }
 
-    private void editBalance(int which) {
-        //TODO
-    }
+
 
     private void payment(int which) {
         //TODO
+
+        AlertDialog.Builder abpayment = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        abpayment.setTitle("Tilgen");
+
+        abpayment.setView(inflater.inflate(R.layout.layout_bilanz_tilgen, null));
+
+        abpayment.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog tilgen = abpayment.create();
+        tilgen.show();
+        
     }
 
+    private void editBalance(int which) {
+        //TODO
+        AlertDialog.Builder abEditBalance = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        abEditBalance.setTitle("Bearbeiten");
+
+        abEditBalance.setView(inflater.inflate(R.layout.layout_bilanz_bearbeiten, null));
+
+        abEditBalance.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog bearbeiten = abEditBalance.create();
+        bearbeiten.show();
+
+
+
+    }
     private void setUpView( View v ){
         textGesamt = (TextView) v.findViewById(R.id.Gesamtbetrag);
         betragGesamt = (TextView) v.findViewById(R.id.bilanz_gesamt_euro);

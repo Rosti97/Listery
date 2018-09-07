@@ -8,7 +8,7 @@ import android.content.Context;
 
 import java.util.concurrent.Executors;
 
-@Database(entities = {Mate.class, Item.class}, version = 1, exportSchema = false)
+@Database(entities = {Mate.class, Item.class}, version = 2, exportSchema = false)
 public abstract class ListeryDatabase extends RoomDatabase{
     public abstract DaoAccess mdaoAccess();
 
