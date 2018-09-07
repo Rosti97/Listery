@@ -8,8 +8,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:layout_marginEnd="13dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -26,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:layout_gravity="start"
-                android:text="Name1"
+                android:text="@string/wg_mb_name"
                 android:textSize="30sp" />
 
             <TextView
@@ -35,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="end"
-                android:text="0 €"
+                android:text="@string/wg_mb_betrag"
                 android:textSize="30sp" />
 
             <ImageView
@@ -47,76 +45,6 @@
                 />
         </LinearLayout>
 
-
-<!--
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            >
-
-            <TextView
-                android:id="@+id/name_mb2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="start"
-                android:text="Name2"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/Betrag_mb2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="0 €"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray">
-
-        </View>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            >
-
-            <TextView
-                android:id="@+id/name_mb3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:layout_gravity="start"
-                android:text="Name3"
-                android:textSize="30sp" />
-
-            <TextView
-                android:id="@+id/Betrag_mb3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="0 €"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/darker_gray">
-
-        </View>
--->
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

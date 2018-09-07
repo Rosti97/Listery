@@ -57,7 +57,10 @@
     <string name="title_new_roommate">Neuer Mitbewohner: </string>
     <string name="title_fragment_wg">WG-Übersicht</string>
 
-    <string name="infodialog_bilanz">Hier siehst du wieviel dir jeder deiner Mitbewohner schuldet. \nSobald du auf einen Mitbewohner klickst, kannst du angeben, wie viel zurückgezahlt wurder oder die Bilanz ändern. \nKomplettzahlung: Die Bilanz wird auf 0€ gesetzt. \nTeilzahlung: Du kannst angeben, wie viel zurückgezahl wurde. \nBearbeiten: Hier kannst du eine neue Bilanz eingeben.</string>
+    <string name="infodialog_bilanz">Hier siehst du wieviel dir jeder deiner Mitbewohner schuldet. \nSobald du auf einen Mitbewohner klickst, kannst du angeben, wie viel zurückgezahlt wurde oder die Bilanz ändern. \nKomplettzahlung: Die Bilanz wird auf 0€ gesetzt. \nTeilzahlung: Du kannst angeben, wie viel zurückgezahl wurde. \nBearbeiten: Hier kannst du eine neue Bilanz eingeben.</string>
     <string name="infodialog_wg">Hier siehst du deine Mitbewohner. \nUm einen Mitbewohner hinzuzufügen, drückst du unten auf den Button und gibst den Namen ein. \nSobald du auf einen Mitbewohner tippst, kannst du seinen Namen ändern oder ihn aus der Liste löschen.</string>
+    <string name="wg_mb_name">Name1</string>
+    <string name="wg_mb_betrag">0 €</string>
+    <string name="bilanz_tilgen_gezahlt">Gezahlt:</string>
 
 </resources>
