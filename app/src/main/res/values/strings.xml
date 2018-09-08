@@ -16,6 +16,7 @@
     <string name="dialog_title">Für wen wird das Produkt eingekauft?</string>
 
     <string name="fragment_title_einkaufsliste">Einkaufsliste</string>
+    <string name="fragment_title_bilanz">Bilanz</string>
     <string name="title_activity_preiseingabe_adapter">PreiseingabeAdapter</string>
 
     <string name="undo_button">UNDO</string>
@@ -24,7 +25,6 @@
     <string name="snackbar_gelöscht">Produkt wurde aus Einkaufsliste entfernt</string>
     <string name="einkaufsliste_anzeige_WG">Für die WG</string>
     <string name="für">Für: </string>
-    <string name="key_intent">Gekauft</string>
     <string name="appwidget_text">Einkaufsliste</string>
     <string name="appwidget_text_detail">Einkaufsliste - Detail</string>
     <string name="add_widget">Add widget</string>

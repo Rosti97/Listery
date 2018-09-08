@@ -7,7 +7,6 @@ import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +31,8 @@ public class BilanzFragment extends Fragment {
     private TextView betragGesamt;
     private ListView listView;
     private BilanzAdapter adapter;
+
+    private EditText et;
 
 
     @Nullable
@@ -99,40 +99,58 @@ public class BilanzFragment extends Fragment {
 
     }
 
-    private void editBalance(Mate mate) {
-        AlertDialog.Builder abEditBalance = new AlertDialog.Builder(getActivity());
+    private void editBalance(int which) {
+        AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        abEditBalance.setTitle("Bearbeiten");
 
-        abEditBalance.setView(inflater.inflate(R.layout.layout_bilanz_bearbeiten, null));
+        ab.setView(inflater.inflate(R.layout.layout_bilanz_bearbeiten, null));
 
-        abEditBalance.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+        ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Dialog d = (Dialog) dialog;
+                et = (EditText) d.findViewById(R.id.edittext_editbalance);
+                String name = et.getText().toString(); //muss wsl Int oder Double werden
+                /** TODO DATENBANK**/
             }
         });
 
-        AlertDialog bearbeiten = abEditBalance.create();
-        bearbeiten.show();
+        ab.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog mbD = ab.create();
+        mbD.show();
     }
 
-    private void payment(Mate mate) {
-        AlertDialog.Builder abpayment = new AlertDialog.Builder(getActivity());
+    private void payment(int which) {
+        AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        abpayment.setTitle("Tilgen");
 
-        abpayment.setView(inflater.inflate(R.layout.layout_bilanz_tilgen, null));
+        ab.setView(inflater.inflate(R.layout.layout_bilanz_tilgen, null));
 
-        abpayment.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+        ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                Dialog d = (Dialog) dialog;
+                et = (EditText) d.findViewById(R.id.edittext_payment);
+                String name = et.getText().toString(); //muss wsl Int oder Double werden
+                /** TODO DATENBANK**/
             }
         });
 
-        AlertDialog tilgen = abpayment.create();
-        tilgen.show();
+        ab.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog mbD = ab.create();
+        mbD.show();
     }
 
     private void setUpView( View v ){
@@ -146,7 +164,7 @@ public class BilanzFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Bilanz");
+        getActivity().setTitle(R.string.fragment_title_bilanz);
     }
 
     @Override
