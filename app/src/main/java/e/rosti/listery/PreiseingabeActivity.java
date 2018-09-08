@@ -1,7 +1,9 @@
 package e.rosti.listery;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +25,7 @@ public class PreiseingabeActivity extends AppCompatActivity {
     private List<Item> gekaufteItems;
     private List<Item> itemsWithPrice;
     private static final String KEY = "Gekauft";
+    private List<Mate> changedMates;
 
     private MateViewModel mMateViewModel;
     private ItemViewModel mItemViewModel;
@@ -32,6 +37,13 @@ public class PreiseingabeActivity extends AppCompatActivity {
 
         mMateViewModel = ViewModelProviders.of(this).get(MateViewModel.class);
         mItemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
+
+        mMateViewModel.getmCurrentMate().observe(this, new Observer<List<Mate>>() {
+            @Override
+            public void onChanged(@Nullable List<Mate> mates) {
+                changedMates = mates;
+            }
+        });
 
         setupView();
         setupButton();
@@ -77,11 +89,10 @@ public class PreiseingabeActivity extends AppCompatActivity {
                 }
                 /** TODO Items (itemsWithPrice) aus Einkaufsliste-Datenbank löschen und in Bilanz einfügen**/
 
-                List<Mate> changedMates = new ArrayList<>();
                 for(Item tempItem : itemsWithPrice){
                     List<Mate> mateList = tempItem.getMates();
                     float partialPrice = tempItem.getPrice() / mateList.size();
-                    partialPrice = Math.round(partialPrice * 1000)/1000;
+                    partialPrice = (float)Math.round(partialPrice*100f)/100f;
                     for(Mate tempMate : mateList){
                         Log.i("TEST", "mateID: "+ tempMate.getId());
                         if(tempMate.getId()!= 1){
@@ -100,10 +111,6 @@ public class PreiseingabeActivity extends AppCompatActivity {
                         }
                     }
                 }
-                Log.i("TEST", "Size:" + changedMates.size());
-                Item[] deleteItems = new Item[itemsWithPrice.size()];
-                deleteItems = itemsWithPrice.toArray(deleteItems);
-                mItemViewModel.deleteItems(deleteItems);
                 Mate[] updateMates = new Mate[changedMates.size()];
                 updateMates = changedMates.toArray(updateMates);
                 mMateViewModel.updateMate(updateMates);

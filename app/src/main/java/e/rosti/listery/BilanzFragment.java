@@ -44,6 +44,8 @@ public class BilanzFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_bilanz, container, false);
 
+        setUpView(v);
+
         mMateViewModel = ViewModelProviders.of(this).get(MateViewModel.class);
         mMateViewModel.excludeYourself();
 
@@ -54,7 +56,12 @@ public class BilanzFragment extends Fragment {
             }
         });
 
-        setUpView(v);
+        mMateViewModel.getCompleteBalance().observe(this, new Observer<Float>() {
+            @Override
+            public void onChanged(@Nullable Float aFloat) {
+                betragGesamt.setText(aFloat.toString()+"€");
+            }
+        });
 
         initListView();
 
@@ -81,6 +88,8 @@ public class BilanzFragment extends Fragment {
                         switch (which) {
                             case 0:
                                 selectedMate.setBalance(0);
+                                Mate[] mates = {selectedMate};
+                                mMateViewModel.updateMate(mates);
                                 break;
                             case 1:
                                 payment(selectedMate);
@@ -99,7 +108,7 @@ public class BilanzFragment extends Fragment {
 
     }
 
-    private void editBalance(Mate selectedMate) {
+    private void editBalance(final Mate selectedMate) {
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -110,8 +119,10 @@ public class BilanzFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 Dialog d = (Dialog) dialog;
                 et = (EditText) d.findViewById(R.id.edittext_editbalance);
-                String name = et.getText().toString(); //muss wsl Int oder Double werden
-                /** TODO DATENBANK**/
+                float edit = Float.parseFloat(et.getText().toString()); //muss wsl Int oder Double werden
+                selectedMate.setBalance(edit);
+                Mate[] mates = {selectedMate};
+                mMateViewModel.updateMate(mates);
             }
         });
 
@@ -126,7 +137,7 @@ public class BilanzFragment extends Fragment {
         mbD.show();
     }
 
-    private void payment(Mate selectedMate) {
+    private void payment(final Mate selectedMate) {
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -137,8 +148,15 @@ public class BilanzFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 Dialog d = (Dialog) dialog;
                 et = (EditText) d.findViewById(R.id.edittext_payment);
-                String name = et.getText().toString(); //muss wsl Int oder Double werden
-                /** TODO DATENBANK**/
+                float edit = Float.parseFloat(et.getText().toString()); //muss wsl Int oder Double werden
+                if(edit>=selectedMate.getBalance()){
+                    selectedMate.setBalance(0);
+                }
+                else{
+                    selectedMate.setBalance(selectedMate.getBalance()-edit);
+                }
+                Mate[] mates = {selectedMate};
+                mMateViewModel.updateMate(mates);
             }
         });
 

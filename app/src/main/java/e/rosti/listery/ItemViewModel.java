@@ -37,6 +37,25 @@ public class ItemViewModel extends AndroidViewModel {
         new ItemViewModel.insertAsyncTask(mDao).execute(item);
     }
 
+    public void updateItem(Item item){
+        new updateAsyncTask(mDao).execute(item);
+    }
+
+    private static class updateAsyncTask extends AsyncTask<Item, Void, Void> {
+
+        private DaoAccess mDao;
+
+        updateAsyncTask(DaoAccess mDao){
+            this.mDao = mDao;
+        }
+
+        @Override
+        protected Void doInBackground(final Item... params){
+            mDao.updateItem(params[0]);
+            return null;
+        }
+    }
+
     private static class deleteAsyncTask extends AsyncTask<Item, Void, Void> {
 
         private DaoAccess mDao;

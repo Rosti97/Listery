@@ -47,6 +47,10 @@ public class MateViewModel extends AndroidViewModel {
         new updateMateAsyncTask(mDao).execute(mate);
     }
 
+    public LiveData<Float> getCompleteBalance(){
+        return mDao.loadCompleteBalance();
+    }
+
     private static class updateMateAsyncTask extends AsyncTask<Mate[], Void, Void> {
 
         private DaoAccess mDao;

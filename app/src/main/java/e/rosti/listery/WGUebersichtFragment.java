@@ -110,11 +110,11 @@ public class WGUebersichtFragment extends Fragment {
         ab.setMessage(R.string.message_löschen);
 
         ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mMateViewModel.deleteMate(selectedMate);
-            }
-        });
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mMateViewModel.deleteMate(selectedMate);
+                }
+            });
 
         ab.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
             @Override

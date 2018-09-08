@@ -127,11 +127,13 @@ public class EinkaufslisteFragment extends Fragment {
                 if (clickedItem.isChecked()) {
                     clickedItem.setChecked(false);
                     checkedItems.remove(clickedItem);
+                    mItemViewModel.updateItem(clickedItem);
                     Log.i("CheckedItems: ", ""+checkedItems);
 
                 } else {
                     clickedItem.setChecked(true);
                     checkedItems.add(clickedItem);
+                    mItemViewModel.updateItem(clickedItem);
                     Log.i("CheckedItems: ", ""+checkedItems);
                 }
                 adapter.notifyDataSetChanged();
@@ -170,6 +172,9 @@ public class EinkaufslisteFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), PreiseingabeActivity.class);
                 if(!checkedItems.isEmpty()){
                     intent.putExtra(KEY, checkedItems);
+                    Item[] items = new Item[checkedItems.size()];
+                    items = checkedItems.toArray(items);
+                    mItemViewModel.deleteItems(items);
                     startActivity(intent);
                 }
             }

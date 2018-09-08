@@ -18,7 +18,6 @@ public class Item implements Parcelable {
     private float price;
     @TypeConverters(DataConverter.class)
     private List<Mate> mates;
-    @Ignore
     private boolean checked;
 
     public Item(String name, float price, List<Mate> mates) {

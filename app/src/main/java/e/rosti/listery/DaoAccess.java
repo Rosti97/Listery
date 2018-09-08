@@ -43,6 +43,15 @@ public interface DaoAccess {
     @Query("SELECT * FROM mate WHERE id > 1")
     LiveData<List<Mate>> loadMatesExceptYourself();
 
+    @Query("SELECT SUM(balance) FROM mate")
+    LiveData<Float> loadCompleteBalance();
+
     @Update
     void updateMates(Mate... mates);
+
+    @Update
+    void updateItem(Item item);
+
+    @Query("SELECT * FROM item")
+    List<Item> getItems();
 }
