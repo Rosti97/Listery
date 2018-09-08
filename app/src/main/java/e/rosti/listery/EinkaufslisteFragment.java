@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /** TODO
- *  1. Datenbank-Einbindung
  *  2. Intent für Preisangabe
  */
 public class EinkaufslisteFragment extends Fragment {
@@ -164,7 +163,7 @@ public class EinkaufslisteFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(), "Button geklickt", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), PreiseingabeActivity.class);
                 ArrayList<Item> checkedItems = new ArrayList<>();
-                for (Item item: einkaufsliste) {
+                for (Item item: adapter.getEinkaufSet()) {
                     if(item.isChecked()) {
                         checkedItems.add(item);
                     }

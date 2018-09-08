@@ -21,7 +21,6 @@ public class MateViewModel extends AndroidViewModel {
         mDao = listeryDB.mdaoAccess();
 
         mCurrentMate = mDao.loadAllMates();
-
     }
 
     public LiveData<List<Mate>> getmCurrentMate(){
@@ -30,6 +29,10 @@ public class MateViewModel extends AndroidViewModel {
             };
         }
         return mCurrentMate;
+    }
+
+    public void excludeYourself(){
+        mCurrentMate = mDao.loadMatesExceptYourself();
     }
 
     public void insertMate (Mate mate){

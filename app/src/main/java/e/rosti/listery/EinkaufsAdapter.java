@@ -49,6 +49,10 @@ public class EinkaufsAdapter extends ArrayAdapter<Item> {
         notifyDataSetChanged();
     }
 
+    public List<Item> getEinkaufSet() {
+        return einkaufSet;
+    }
+
     @NonNull
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {

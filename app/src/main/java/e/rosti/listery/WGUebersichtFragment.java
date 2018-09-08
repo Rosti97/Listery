@@ -53,6 +53,7 @@ public class WGUebersichtFragment extends Fragment {
         });
 
         mMateViewModel = ViewModelProviders.of(this).get(MateViewModel.class);
+        mMateViewModel.excludeYourself();
 
         mMateViewModel.getmCurrentMate().observe(this, new Observer<List<Mate>>() {
             @Override

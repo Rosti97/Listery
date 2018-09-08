@@ -1,6 +1,8 @@
 package e.rosti.listery;
 
 import android.app.Dialog;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -20,14 +22,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class BilanzFragment extends Fragment {
 
+    private MateViewModel mMateViewModel;
+
     private TextView textGesamt;
     private TextView betragGesamt;
     private ListView listView;
-    private ArrayList<Mate> listeMbArray;
     private BilanzAdapter adapter;
 
 
@@ -40,37 +44,33 @@ public class BilanzFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_bilanz, container, false);
 
+        mMateViewModel = ViewModelProviders.of(this).get(MateViewModel.class);
+        mMateViewModel.excludeYourself();
+
+        mMateViewModel.getmCurrentMate().observe(this, new Observer<List<Mate>>() {
+            @Override
+            public void onChanged(@Nullable List<Mate> mates) {
+                adapter.addItem(mates);
+            }
+        });
+
         setUpView(v);
 
         initListView();
 
-
         return v;
-
-
-
     }
 
     private void initListView() {
-        listeMbArray = new ArrayList<>();
-
-        /**Zwei Tests TODO Entfernen**/
-        /**-------------------------------------------------------------**/
-        Mate mb1 = new Mate("Max" , 5);
-        Mate mb2 = new Mate("Moritz", 10);
-        listeMbArray.add(mb1);
-        listeMbArray.add(mb2);
-        /**-------------------------------------------------------------**/
-
-        adapter = new BilanzAdapter(listeMbArray, this.getContext());
+        adapter = new BilanzAdapter(new ArrayList<Mate>(), this.getContext());
 
         listView.setAdapter(adapter);
-
 
         /**Dialog wird angezeigt (Komplettzahlung/Teilzahlung/Bearbeiten)**/
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Mate selectedMate = adapter.getItem(position);
 
                 AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
                 LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -80,13 +80,13 @@ public class BilanzFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0:
-                                //TODO Datenbank Bilanz auf 0
+                                selectedMate.setBalance(0);
                                 break;
                             case 1:
-                                payment(which);
+                                payment(selectedMate);
                                 break;
                             case 2:
-                                editBalance(which);
+                                editBalance(selectedMate);
                                 break;
                         }
                     }
@@ -99,12 +99,40 @@ public class BilanzFragment extends Fragment {
 
     }
 
-    private void editBalance(int which) {
-        //TODO
+    private void editBalance(Mate mate) {
+        AlertDialog.Builder abEditBalance = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        abEditBalance.setTitle("Bearbeiten");
+
+        abEditBalance.setView(inflater.inflate(R.layout.layout_bilanz_bearbeiten, null));
+
+        abEditBalance.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog bearbeiten = abEditBalance.create();
+        bearbeiten.show();
     }
 
-    private void payment(int which) {
-        //TODO
+    private void payment(Mate mate) {
+        AlertDialog.Builder abpayment = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        abpayment.setTitle("Tilgen");
+
+        abpayment.setView(inflater.inflate(R.layout.layout_bilanz_tilgen, null));
+
+        abpayment.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog tilgen = abpayment.create();
+        tilgen.show();
     }
 
     private void setUpView( View v ){

@@ -4,11 +4,14 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.os.Parcel;
+import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Item {
+public class Item implements Parcelable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
@@ -64,4 +67,47 @@ public class Item {
     public void setChecked(boolean checked) {
         this.checked = checked;
     }
+
+    protected Item(Parcel in) {
+        name = in.readString();
+        price = in.readFloat();
+        if (in.readByte() == 0x01) {
+            mates = new ArrayList<Mate>();
+            in.readList(mates, Mate.class.getClassLoader());
+        } else {
+            mates = null;
+        }
+        checked = in.readByte() != 0x00;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeFloat(price);
+        if (mates == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(mates);
+        }
+        dest.writeByte((byte) (checked ? 0x01 : 0x00));
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 }

@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 import static android.content.ContentValues.TAG;
 
-public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
+public class PreiseingabeAdapter extends ArrayAdapter<Item> {
 
-    private ArrayList<Einkaufsitem> einkaufSet;
+    private ArrayList<Item> einkaufSet;
     private Context mContext;
 
     private static class ViewBox {
@@ -28,7 +28,7 @@ public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
         EditText etPreis;
     }
 
-    public PreiseingabeAdapter(ArrayList<Einkaufsitem> data, Context context) {
+    public PreiseingabeAdapter(ArrayList<Item> data, Context context) {
         super(context, R.layout.layout_preiseingabe_eintrag, data);
         this.einkaufSet = data;
         this.mContext = context;
@@ -40,7 +40,7 @@ public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
     }
 
     @Override
-    public Einkaufsitem getItem(int position) {
+    public Item getItem(int position) {
         return einkaufSet.get(position);
     }
 
@@ -67,9 +67,9 @@ public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
             result=convertView;
         }
 
-        final Einkaufsitem item = getItem(position);
+        final Item item = getItem(position);
 
-        viewBox.tvProduct.setText(item.getProduct());
+        viewBox.tvProduct.setText(item.getName());
 
         //Preis wird gesetzt für Einkaufsitem
         viewBox.etPreis.addTextChangedListener(new TextWatcher() {
@@ -85,7 +85,7 @@ public class PreiseingabeAdapter extends ArrayAdapter<Einkaufsitem> {
 
             @Override
             public void afterTextChanged(Editable s) {
-                item.setPrice(viewBox.etPreis.getText().toString());
+                item.setPrice(Float.parseFloat(viewBox.etPreis.getText().toString()));
             }
         });
         

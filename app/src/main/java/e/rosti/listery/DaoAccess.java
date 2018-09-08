@@ -37,6 +37,9 @@ public interface DaoAccess {
     @Query("SELECT * FROM mate")
     LiveData<List<Mate>> loadAllMates();
 
+    @Query("SELECT * FROM mate WHERE id > 1")
+    LiveData<List<Mate>> loadMatesExceptYourself();
+
     @Update
     public void updateMates(Mate... mates);
 }

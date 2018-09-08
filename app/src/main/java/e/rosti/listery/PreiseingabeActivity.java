@@ -10,14 +10,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PreiseingabeActivity extends AppCompatActivity {
 
     private PreiseingabeAdapter adapter;
     private ListView listView;
     private Button button;
-    private ArrayList<Einkaufsitem> gekaufteItems;
-    private ArrayList<Einkaufsitem> itemsWithPrice;
+    private List<Item> gekaufteItems;
+    private List<Item> itemsWithPrice;
     private static final String KEY = "Gekauft";
 
     @Override
@@ -33,7 +34,6 @@ public class PreiseingabeActivity extends AppCompatActivity {
     private void setupView() {
         listView = findViewById(R.id.listview_preiseingabe);
 
-        gekaufteItems = new ArrayList<>();
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
@@ -41,13 +41,13 @@ public class PreiseingabeActivity extends AppCompatActivity {
             gekaufteItems = extras.getParcelableArrayList(KEY);
         }
         /**Test**/
-        Einkaufsitem item = gekaufteItems.get(0);
-        if (item.getPrice() != null) {
+        Item item = gekaufteItems.get(0);
+        if (item.getPrice() != 0) {
                 Toast.makeText(this, "Test:" + item.getPrice(), Toast.LENGTH_SHORT).show();
         }
         /**---**/
 
-        adapter = new PreiseingabeAdapter(gekaufteItems, this);
+        adapter = new PreiseingabeAdapter(new ArrayList<Item>(), this);
 
         listView.setAdapter(adapter);
     }
@@ -62,14 +62,14 @@ public class PreiseingabeActivity extends AppCompatActivity {
                  */
 
                 /** TEST für Preisanzeige :D **/
-                for (Einkaufsitem item: gekaufteItems) {
-                    if (item.getPrice() != null) {
-                    Log.i("TESTPREIS", item.getProduct() + item.getPrice());
+                for (Item item: gekaufteItems) {
+                    if (item.getPrice() != 0) {
+                    Log.i("TESTPREIS", item.getName() + item.getPrice());
                 }}
 
                 itemsWithPrice = new ArrayList<>();
-                for (Einkaufsitem item: gekaufteItems) {
-                    if (item.getPrice() != null && !item.getPrice().equals("Null")) {
+                for (Item item: gekaufteItems) {
+                    if (item.getPrice() != 0) {
                         itemsWithPrice.add(item);
                         Log.i("TESTGRÖßE", "Preisliste: " + itemsWithPrice.size());
                     }
