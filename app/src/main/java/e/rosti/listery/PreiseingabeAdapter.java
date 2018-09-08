@@ -1,5 +1,6 @@
 package e.rosti.listery;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.text.Editable;
@@ -15,12 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
 public class PreiseingabeAdapter extends ArrayAdapter<Item> {
 
-    private ArrayList<Item> einkaufSet;
+    private List<Item> einkaufSet;
     private Context mContext;
 
     private static class ViewBox {
@@ -28,11 +30,10 @@ public class PreiseingabeAdapter extends ArrayAdapter<Item> {
         EditText etPreis;
     }
 
-    public PreiseingabeAdapter(ArrayList<Item> data, Context context) {
+    public PreiseingabeAdapter(List<Item> data, Context context) {
         super(context, R.layout.layout_preiseingabe_eintrag, data);
         this.einkaufSet = data;
         this.mContext = context;
-
     }
     @Override
     public int getCount() {
@@ -43,7 +44,6 @@ public class PreiseingabeAdapter extends ArrayAdapter<Item> {
     public Item getItem(int position) {
         return einkaufSet.get(position);
     }
-
 
     @Override
     public View getView(int position, View convertView, @NonNull ViewGroup parent) {

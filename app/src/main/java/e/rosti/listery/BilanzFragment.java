@@ -99,7 +99,7 @@ public class BilanzFragment extends Fragment {
 
     }
 
-    private void editBalance(int which) {
+    private void editBalance(Mate selectedMate) {
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
@@ -126,7 +126,7 @@ public class BilanzFragment extends Fragment {
         mbD.show();
     }
 
-    private void payment(int which) {
+    private void payment(Mate selectedMate) {
         AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 

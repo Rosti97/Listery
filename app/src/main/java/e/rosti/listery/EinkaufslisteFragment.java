@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,7 +35,7 @@ public class EinkaufslisteFragment extends Fragment {
     private MateViewModel mMateViewModel;
     private ItemViewModel mItemViewModel;
 
-    private List<Item> einkaufsliste;
+    private ArrayList<Item> checkedItems;
     private ListView listView;
     private EinkaufsAdapter adapter;
 
@@ -61,6 +62,8 @@ public class EinkaufslisteFragment extends Fragment {
         setupViews(v);
         setupButtons(v);
 
+        checkedItems = new ArrayList<>();
+
         adapter = new EinkaufsAdapter(new ArrayList<Item>(), this.getContext());
 
         listView.setAdapter(adapter);
@@ -85,7 +88,6 @@ public class EinkaufslisteFragment extends Fragment {
         mItemViewModel.getAllItems().observe(this, new Observer<List<Item>>() {
             @Override
             public void onChanged(@Nullable List<Item> items) {
-                einkaufsliste = items;
                 adapter.addItems(items);
             }
         });
@@ -124,9 +126,13 @@ public class EinkaufslisteFragment extends Fragment {
 
                 if (clickedItem.isChecked()) {
                     clickedItem.setChecked(false);
+                    checkedItems.remove(clickedItem);
+                    Log.i("CheckedItems: ", ""+checkedItems);
 
                 } else {
                     clickedItem.setChecked(true);
+                    checkedItems.add(clickedItem);
+                    Log.i("CheckedItems: ", ""+checkedItems);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -162,14 +168,10 @@ public class EinkaufslisteFragment extends Fragment {
             public void onClick(View v) {
                 Toast.makeText(getActivity().getApplicationContext(), "Button geklickt", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), PreiseingabeActivity.class);
-                ArrayList<Item> checkedItems = new ArrayList<>();
-                for (Item item: adapter.getEinkaufSet()) {
-                    if(item.isChecked()) {
-                        checkedItems.add(item);
-                    }
+                if(!checkedItems.isEmpty()){
+                    intent.putExtra(KEY, checkedItems);
+                    startActivity(intent);
                 }
-                intent.putExtra(KEY, checkedItems);
-                startActivity(intent);
             }
         });
 
@@ -216,11 +218,9 @@ public class EinkaufslisteFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int which) {
                 if(!selectedMates.isEmpty()) {
                     String text = selectedMates.get(0).getName();
-                    if(selectedMates.size()>1) {
-                        for (int i = 1; i < checkedPerson.length; i++) {
+                        for (int i = 1; i < selectedMates.size(); i++) {
                             text += ", " + selectedMates.get(i).getName();
                         }
-                    }
                     tvMitbewohner.setText(text);
                     addProduct();
                 }

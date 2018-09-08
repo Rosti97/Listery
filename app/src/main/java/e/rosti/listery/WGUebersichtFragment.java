@@ -142,7 +142,8 @@ public class WGUebersichtFragment extends Fragment {
                 et = (EditText) d.findViewById(R.id.edittext_newMb);
                 String name = et.getText().toString();
                 selectedMate.setName(name);
-                mMateViewModel.updateName(selectedMate);
+                Mate[] data = {selectedMate};
+                mMateViewModel.updateMate(data);
             }
         });
         AlertDialog mbD = ab.create();

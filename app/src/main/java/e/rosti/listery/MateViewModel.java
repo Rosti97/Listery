@@ -43,20 +43,20 @@ public class MateViewModel extends AndroidViewModel {
         new deleteAsyncTask(mDao).execute(mate);
     }
 
-    public void updateName(Mate mate){
-        new changeNameAsyncTask(mDao).execute(mate);
+    public void updateMate(Mate[] mate){
+        new updateMateAsyncTask(mDao).execute(mate);
     }
 
-    private static class changeNameAsyncTask extends AsyncTask<Mate, Void, Void> {
+    private static class updateMateAsyncTask extends AsyncTask<Mate[], Void, Void> {
 
         private DaoAccess mDao;
 
-        changeNameAsyncTask(DaoAccess mDao){
+        updateMateAsyncTask(DaoAccess mDao){
             this.mDao = mDao;
         }
 
         @Override
-        protected Void doInBackground(final Mate... params){
+        protected Void doInBackground(final Mate[]... params){
             mDao.updateMates(params[0]);
             return null;
         }

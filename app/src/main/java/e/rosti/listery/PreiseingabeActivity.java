@@ -1,5 +1,6 @@
 package e.rosti.listery;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,10 +22,16 @@ public class PreiseingabeActivity extends AppCompatActivity {
     private List<Item> itemsWithPrice;
     private static final String KEY = "Gekauft";
 
+    private MateViewModel mMateViewModel;
+    private ItemViewModel mItemViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preiseingabe);
+
+        mMateViewModel = ViewModelProviders.of(this).get(MateViewModel.class);
+        mItemViewModel = ViewModelProviders.of(this).get(ItemViewModel.class);
 
         setupView();
         setupButton();
@@ -40,14 +47,8 @@ public class PreiseingabeActivity extends AppCompatActivity {
         if (extras != null) {
             gekaufteItems = extras.getParcelableArrayList(KEY);
         }
-        /**Test**/
-        Item item = gekaufteItems.get(0);
-        if (item.getPrice() != 0) {
-                Toast.makeText(this, "Test:" + item.getPrice(), Toast.LENGTH_SHORT).show();
-        }
-        /**---**/
 
-        adapter = new PreiseingabeAdapter(new ArrayList<Item>(), this);
+        adapter = new PreiseingabeAdapter(gekaufteItems, this);
 
         listView.setAdapter(adapter);
     }
@@ -63,11 +64,11 @@ public class PreiseingabeActivity extends AppCompatActivity {
 
                 /** TEST für Preisanzeige :D **/
                 for (Item item: gekaufteItems) {
-                    if (item.getPrice() != 0) {
+                    if (item.getPrice() == 0) {
                     Log.i("TESTPREIS", item.getName() + item.getPrice());
                 }}
 
-                itemsWithPrice = new ArrayList<>();
+                itemsWithPrice = new ArrayList<Item>();
                 for (Item item: gekaufteItems) {
                     if (item.getPrice() != 0) {
                         itemsWithPrice.add(item);
@@ -75,6 +76,37 @@ public class PreiseingabeActivity extends AppCompatActivity {
                     }
                 }
                 /** TODO Items (itemsWithPrice) aus Einkaufsliste-Datenbank löschen und in Bilanz einfügen**/
+
+                List<Mate> changedMates = new ArrayList<>();
+                for(Item tempItem : itemsWithPrice){
+                    List<Mate> mateList = tempItem.getMates();
+                    float partialPrice = tempItem.getPrice() / mateList.size();
+                    partialPrice = Math.round(partialPrice * 1000)/1000;
+                    for(Mate tempMate : mateList){
+                        Log.i("TEST", "mateID: "+ tempMate.getId());
+                        if(tempMate.getId()!= 1){
+                            for(Mate tempMate02 : changedMates){
+                                if(tempMate02.getId()==tempMate.getId()){
+                                    tempMate = tempMate02;
+                                }
+                            }
+                            Log.i("TEST","getBalance()"+tempMate.getBalance());
+                            Log.i("TEST", "Welcher Mate? "+tempMate);
+                            float balance = tempMate.getBalance() + partialPrice;
+                            tempMate.setBalance(balance);
+                            if(!changedMates.contains(tempMate)){
+                                changedMates.add(tempMate);
+                            }
+                        }
+                    }
+                }
+                Log.i("TEST", "Size:" + changedMates.size());
+                Item[] deleteItems = new Item[itemsWithPrice.size()];
+                deleteItems = itemsWithPrice.toArray(deleteItems);
+                mItemViewModel.deleteItems(deleteItems);
+                Mate[] updateMates = new Mate[changedMates.size()];
+                updateMates = changedMates.toArray(updateMates);
+                mMateViewModel.updateMate(updateMates);
 
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);

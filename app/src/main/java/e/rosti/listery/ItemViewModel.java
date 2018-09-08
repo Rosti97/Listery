@@ -31,6 +31,8 @@ public class ItemViewModel extends AndroidViewModel {
         new ItemViewModel.deleteAsyncTask(mDao).execute(item);
     }
 
+    public void deleteItems(Item...items){new ItemViewModel.deleteManyAsyncTask(mDao).execute(items);}
+
     public void insertItem(Item item){
         new ItemViewModel.insertAsyncTask(mDao).execute(item);
     }
@@ -49,6 +51,22 @@ public class ItemViewModel extends AndroidViewModel {
             return null;
         }
     }
+
+    private static class deleteManyAsyncTask extends AsyncTask<Item[], Void, Void> {
+
+        private DaoAccess mDao;
+
+        deleteManyAsyncTask(DaoAccess mDao){
+            this.mDao = mDao;
+        }
+
+        @Override
+        protected Void doInBackground(final Item[]... params){
+            mDao.deleteItems(params[0]);
+            return null;
+        }
+    }
+
 
     private static class insertAsyncTask extends AsyncTask<Item, Void, Void> {
 

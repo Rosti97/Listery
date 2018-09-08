@@ -29,6 +29,9 @@ public interface DaoAccess {
     @Delete
     void deleteItem(Item item);
 
+    @Delete
+    void deleteItems(Item...items);
+
     /* this query returns all purchases - should be used to display information in listView */
     @Query("SELECT * FROM item")
     LiveData<List<Item>> loadAllItems();
@@ -41,5 +44,5 @@ public interface DaoAccess {
     LiveData<List<Mate>> loadMatesExceptYourself();
 
     @Update
-    public void updateMates(Mate... mates);
+    void updateMates(Mate... mates);
 }
