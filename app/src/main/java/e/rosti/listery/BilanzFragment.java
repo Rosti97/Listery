@@ -1,11 +1,9 @@
 package e.rosti.listery;
 
 import android.app.Dialog;
-import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -17,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -29,6 +26,8 @@ public class BilanzFragment extends Fragment {
     private ListView listView;
     private ArrayList<Mate> listeMbArray;
     private BilanzAdapter adapter;
+
+    private EditText et;
 
 
     @Nullable
@@ -100,11 +99,57 @@ public class BilanzFragment extends Fragment {
     }
 
     private void editBalance(int which) {
-        //TODO
+        AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        ab.setView(inflater.inflate(R.layout.layout_bilanz_bearbeiten, null));
+
+        ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Dialog d = (Dialog) dialog;
+                et = (EditText) d.findViewById(R.id.edittext_editbalance);
+                String name = et.getText().toString(); //muss wsl Int oder Double werden
+                /** TODO DATENBANK**/
+            }
+        });
+
+        ab.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog mbD = ab.create();
+        mbD.show();
     }
 
     private void payment(int which) {
-        //TODO
+        AlertDialog.Builder ab  = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        ab.setView(inflater.inflate(R.layout.layout_bilanz_tilgen, null));
+
+        ab.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Dialog d = (Dialog) dialog;
+                et = (EditText) d.findViewById(R.id.edittext_payment);
+                String name = et.getText().toString(); //muss wsl Int oder Double werden
+                /** TODO DATENBANK**/
+            }
+        });
+
+        ab.setNegativeButton(R.string.cancel_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog mbD = ab.create();
+        mbD.show();
     }
 
     private void setUpView( View v ){
@@ -118,7 +163,7 @@ public class BilanzFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
-        getActivity().setTitle("Bilanz");
+        getActivity().setTitle(R.string.fragment_title_bilanz);
     }
 
     @Override
