@@ -14,21 +14,14 @@ import java.util.List;
 
 public class EinkaufsAdapter extends ArrayAdapter<Item> {
 
-    private List<Item> einkaufSet;
     Context mContext;
-
-    private static class ViewBox {
-        TextView productName;
-        TextView mbAnzeige;
-        CheckBox checkBox;
-    }
+    private List<Item> einkaufSet;
 
     public EinkaufsAdapter(List<Item> data, Context context) {
         super(context, R.layout.layout_einkaufsliste_eintrag, data);
-        if(data != null){
+        if (data != null) {
             einkaufSet = data;
-        }
-        else{
+        } else {
             einkaufSet = new ArrayList<>();
         }
         mContext = context;
@@ -44,7 +37,7 @@ public class EinkaufsAdapter extends ArrayAdapter<Item> {
         return einkaufSet.get(position);
     }
 
-    public void addItems(List<Item> items){
+    public void addItems(List<Item> items) {
         this.einkaufSet = items;
         notifyDataSetChanged();
     }
@@ -63,19 +56,19 @@ public class EinkaufsAdapter extends ArrayAdapter<Item> {
             viewBox.mbAnzeige = (TextView) convertView.findViewById(R.id.textview_einkaufsliste_mb);
             viewBox.checkBox = (CheckBox) convertView.findViewById(R.id.checkbox_einkaufsliste);
 
-            result=convertView;
+            result = convertView;
             convertView.setTag(viewBox);
 
         } else {
             viewBox = (ViewBox) convertView.getTag();
-            result=convertView;
+            result = convertView;
         }
 
-        if(!einkaufSet.isEmpty()) {
+        if (!einkaufSet.isEmpty()) {
             Item currentItem = getItem(position);
             List<Mate> allMates = currentItem.getMates();
             String text = allMates.get(0).getName();
-            if(allMates.size()>1) {
+            if (allMates.size() > 1) {
                 for (int i = 1; i < allMates.size(); i++) {
                     text += ", " + allMates.get(i).getName();
                 }
@@ -83,15 +76,19 @@ public class EinkaufsAdapter extends ArrayAdapter<Item> {
             viewBox.productName.setText(currentItem.getName());
             viewBox.mbAnzeige.setText(text);
             viewBox.checkBox.setChecked(currentItem.isChecked());
-        }
-        else {
+        } else {
             viewBox.productName.setText("");
             viewBox.mbAnzeige.setText("");
             viewBox.checkBox.setChecked(false);
         }
 
 
-
         return result;
+    }
+
+    private static class ViewBox {
+        TextView productName;
+        TextView mbAnzeige;
+        CheckBox checkBox;
     }
 }

@@ -3,7 +3,6 @@ package e.rosti.listery;
 import android.app.Dialog;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.persistence.room.Room;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +26,6 @@ public class BilanzFragment extends Fragment {
 
     private MateViewModel mMateViewModel;
 
-    private TextView textGesamt;
     private TextView betragGesamt;
     private ListView listView;
     private BilanzAdapter adapter;
@@ -172,7 +170,7 @@ public class BilanzFragment extends Fragment {
     }
 
     private void setUpView( View v ){
-        textGesamt = (TextView) v.findViewById(R.id.Gesamtbetrag);
+        TextView textGesamt = (TextView) v.findViewById(R.id.Gesamtbetrag);
         betragGesamt = (TextView) v.findViewById(R.id.bilanz_gesamt_euro);
         listView = (ListView) v.findViewById(R.id.lv_mb_bilanz);
     }

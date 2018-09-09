@@ -14,18 +14,11 @@ import java.util.List;
 
 public class UebersichtsAdapter extends ArrayAdapter<Mate> {
 
-    private Context context;
     private List<Mate> data;
 
-    public UebersichtsAdapter(ArrayList<Mate> data, Context context) {
+    UebersichtsAdapter(ArrayList<Mate> data, Context context) {
         super(context, R.layout.layout_wg_row, data);
-        this.context = context;
         this.data = data;
-    }
-
-    private static class ViewBox{
-        TextView tvName;
-        ImageView ivDots;
     }
 
     @Override
@@ -38,7 +31,7 @@ public class UebersichtsAdapter extends ArrayAdapter<Mate> {
         return data.get(position);
     }
 
-    public void addItem(List<Mate> mates){
+    public void addItem(List<Mate> mates) {
         data = mates;
         notifyDataSetChanged();
     }
@@ -56,12 +49,12 @@ public class UebersichtsAdapter extends ArrayAdapter<Mate> {
             viewBox.ivDots = (ImageView) convertView.findViewById(R.id.iv_wg_dots);
 
 
-            result=convertView;
+            result = convertView;
             convertView.setTag(viewBox);
 
         } else {
             viewBox = (UebersichtsAdapter.ViewBox) convertView.getTag();
-            result=convertView;
+            result = convertView;
         }
 
         Mate item = getItem(position);
@@ -69,6 +62,11 @@ public class UebersichtsAdapter extends ArrayAdapter<Mate> {
         viewBox.tvName.setText(item.getName());
 
         return result;
+    }
+
+    private static class ViewBox {
+        TextView tvName;
+        ImageView ivDots;
     }
 
 }

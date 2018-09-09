@@ -1,7 +1,6 @@
 package e.rosti.listery;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.os.Parcel;
@@ -12,6 +11,18 @@ import java.util.List;
 
 @Entity
 public class Item implements Parcelable {
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
@@ -25,6 +36,18 @@ public class Item implements Parcelable {
         this.price = price;
         this.mates = mates;
         checked = false;
+    }
+
+    protected Item(Parcel in) {
+        name = in.readString();
+        price = in.readFloat();
+        if (in.readByte() == 0x01) {
+            mates = new ArrayList<Mate>();
+            in.readList(mates, Mate.class.getClassLoader());
+        } else {
+            mates = null;
+        }
+        checked = in.readByte() != 0x00;
     }
 
     public int getId() {
@@ -67,18 +90,6 @@ public class Item implements Parcelable {
         this.checked = checked;
     }
 
-    protected Item(Parcel in) {
-        name = in.readString();
-        price = in.readFloat();
-        if (in.readByte() == 0x01) {
-            mates = new ArrayList<Mate>();
-            in.readList(mates, Mate.class.getClassLoader());
-        } else {
-            mates = null;
-        }
-        checked = in.readByte() != 0x00;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -96,17 +107,4 @@ public class Item implements Parcelable {
         }
         dest.writeByte((byte) (checked ? 0x01 : 0x00));
     }
-
-    @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
-        @Override
-        public Item createFromParcel(Parcel in) {
-            return new Item(in);
-        }
-
-        @Override
-        public Item[] newArray(int size) {
-            return new Item[size];
-        }
-    };
 }

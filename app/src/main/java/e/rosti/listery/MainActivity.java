@@ -1,7 +1,6 @@
 package e.rosti.listery;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -24,10 +23,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUI();
-        /**TODO if-Abfrage:
-         * falls keine Mitbewohner in List: R.id.wguebersicht
-         * else:
-         */
         displaySelectedScreen(R.id.einkaufsliste);
     }
 
@@ -83,7 +78,9 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /**Hier wird der InfoDialog im WG-Übersichts-Fragment**/
+    /**
+     * Hier wird der InfoDialog im WG-Übersichts-Fragment
+     **/
     private void showWgInfoDialog() {
         final AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -101,7 +98,9 @@ public class MainActivity extends AppCompatActivity
         iDialog.show();
     }
 
-    /**Hier wird der InfoDialog im Bilanz-Fragment angezeigt**/
+    /**
+     * Hier wird der InfoDialog im Bilanz-Fragment angezeigt
+     **/
     private void showBilanzInfoDialog() {
         final AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -119,7 +118,9 @@ public class MainActivity extends AppCompatActivity
         iDialog.show();
     }
 
-    /**Hier wird der InfoDialog im Einkaufsliste-Fragment angezeigt**/
+    /**
+     * Hier wird der InfoDialog im Einkaufsliste-Fragment angezeigt
+     **/
     private void showListInfoDialog() {
         final AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
@@ -144,7 +145,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    /**Welches Fragment wird angezeigt**/
+    /**
+     * Welches Fragment wird angezeigt
+     **/
     private void displaySelectedScreen(int itemId) {
 
         //creating fragment object

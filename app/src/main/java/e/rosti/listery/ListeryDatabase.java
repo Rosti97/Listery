@@ -9,22 +9,19 @@ import android.content.Context;
 import java.util.concurrent.Executors;
 
 @Database(entities = {Mate.class, Item.class}, version = 1, exportSchema = false)
-public abstract class ListeryDatabase extends RoomDatabase{
-    public abstract DaoAccess mdaoAccess();
-
+public abstract class ListeryDatabase extends RoomDatabase {
     private static ListeryDatabase INSTANCE;
-
 
     static ListeryDatabase getDatabase(final Context context) {
         if (INSTANCE == null) {
             synchronized (ListeryDatabase.class) {
                 if (INSTANCE == null) {
-                    Callback rdc = new Callback(){
-                        public void onCreate(SupportSQLiteDatabase db){
+                    Callback rdc = new Callback() {
+                        public void onCreate(SupportSQLiteDatabase db) {
                             Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                                 @Override
                                 public void run() {
-                                    getDatabase(context).mdaoAccess().insertMates(new Mate("Ich",0));
+                                    getDatabase(context).mdaoAccess().insertMates(new Mate("Ich", 0));
                                 }
                             });
                         }
@@ -38,4 +35,6 @@ public abstract class ListeryDatabase extends RoomDatabase{
         }
         return INSTANCE;
     }
+
+    public abstract DaoAccess mdaoAccess();
 }
