@@ -33,6 +33,7 @@
     <string name="anzeige_widget_detail_korb_one">davon im</string>
     <string name="anzeige_widget_detail_korb_two">Einkaufswagen</string>
 
+    <string name="info">info</string>
     <string name="einkauf_info_produkt">Gib bei \"Produkt\" ein, was du kaufen willst!</string>
     <string name="einkauf_info_mb">Drücke Icon, um auszuwählen, für wen du das Produkt kaufst</string>
     <string name="einkauf_info_add">Drücke Icon oder \"Enter\", um das Produkt der Einkaufsliste hinzuzufügen</string>

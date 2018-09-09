@@ -2,7 +2,7 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/einkaufsliste_widget_detail"
     android:initialLayout="@layout/einkaufsliste_widget_detail"
-    android:minHeight="110dp"
+    android:minHeight="40dp"
     android:minWidth="110dp"
     android:previewImage="@drawable/preview_widget_detail"
     android:resizeMode="horizontal|vertical"

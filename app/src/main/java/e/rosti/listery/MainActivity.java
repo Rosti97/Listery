@@ -125,10 +125,10 @@ public class MainActivity extends AppCompatActivity
         final AlertDialog.Builder adBuilder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
 
-        adBuilder.setTitle("Info");
+        adBuilder.setTitle(R.string.info);
         adBuilder.setIcon(R.drawable.ic_info_outline_black_24dp);
         adBuilder.setView(inflater.inflate(R.layout.layout_infodialog_einkaufsliste, null));
-        adBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        adBuilder.setPositiveButton(R.string.ok_button, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
 
