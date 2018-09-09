@@ -16,8 +16,8 @@ import java.util.List;
  */
 public class EinkaufslisteWidgetDetail extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+    static void updateAppWidget(final Context context,final AppWidgetManager appWidgetManager,
+                                final int appWidgetId) {
 
 
         // Construct the RemoteViews object

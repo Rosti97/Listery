@@ -71,7 +71,7 @@ public class PreiseingabeAdapter extends ArrayAdapter<Item> {
 
         viewBox.tvProduct.setText(item.getName());
 
-        //Preis wird gesetzt für Einkaufsitem
+        //Preis wird gesetzt für Item
         viewBox.etPreis.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -85,7 +85,12 @@ public class PreiseingabeAdapter extends ArrayAdapter<Item> {
 
             @Override
             public void afterTextChanged(Editable s) {
-                item.setPrice(Float.parseFloat(viewBox.etPreis.getText().toString()));
+                if(!s.toString().equals("")) {
+                    item.setPrice(Float.parseFloat(viewBox.etPreis.getText().toString()));
+                }
+                else{
+                    item.setPrice(0);
+                }
             }
         });
         
