@@ -20,7 +20,7 @@ public class EinkaufslisteWidget extends AppWidgetProvider {
                                 final int appWidgetId) {
 
         // Construct the RemoteViews object
-        final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.einkaufsliste_widget);
+        final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.einkaufsliste_widget_detail);
 
         List<Item> allItems = null;
 
@@ -33,8 +33,22 @@ public class EinkaufslisteWidget extends AppWidgetProvider {
                     String produkte = String.valueOf(items.size());
                     String anzeige = context.getString(R.string.anzeige_widget_one) + "\n" + context.getString(R.string.anzeige_widget_two);
 
-                    views.setTextViewText(R.id.appwidget_text, anzeige);
-                    views.setTextViewText(R.id.appwidget_text_anzahl, produkte);
+                    int counter = 0;
+                    for(Item temp : items){
+                        if(temp.isChecked()){
+                            counter++;
+                        }
+                    }
+
+                    String checkedProdukte = Integer.toString(counter);
+                    String anzeigeChecked = context.getString(R.string.anzeige_widget_detail_korb_one) + "\n" +
+                            context.getString(R.string.anzeige_widget_detail_korb_two);
+
+                    views.setTextViewText(R.id.appwidget_text_detail, anzeige);
+                    views.setTextViewText(R.id.appwidget_text_detail_anzahl, produkte);
+
+                    views.setTextViewText(R.id.appwidget_text_detail_korb_anzahl, checkedProdukte);
+                    views.setTextViewText(R.id.appwidget_text_detail_korb_text, anzeigeChecked);
                     appWidgetManager.updateAppWidget(new ComponentName(context, EinkaufslisteWidget.class), views);
 
                 }

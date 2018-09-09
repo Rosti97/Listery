@@ -132,13 +132,13 @@ public class EinkaufslisteFragment extends Fragment {
                     clickedItem.setChecked(false);
                     checkedItems.remove(clickedItem);
                     mItemViewModel.updateItem(clickedItem);
-                    Log.i("CheckedItems: ", ""+checkedItems);
+                    updateWidgets(getContext());
 
                 } else {
                     clickedItem.setChecked(true);
                     checkedItems.add(clickedItem);
                     mItemViewModel.updateItem(clickedItem);
-                    Log.i("CheckedItems: ", ""+checkedItems);
+                    updateWidgets(getContext());
                 }
                 adapter.notifyDataSetChanged();
             }
