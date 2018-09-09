@@ -2,10 +2,14 @@ package e.rosti.listery;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.widget.RemoteViews;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
@@ -15,40 +19,52 @@ public class EinkaufslisteWidgetDetail extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        CharSequence widgetText = context.getString(R.string.appwidget_text_detail);
+
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.einkaufsliste_widget_detail);
+        final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.einkaufsliste_widget_detail);
 
+        List<Item> allItems = null;
 
-        /**TODO DATENBANK*/
-        //die Einkaufsliste holen
-        ArrayList<Einkaufsitem> list = new ArrayList<>();
-        //Testeinträge entfernen!
-        list.add(new Einkaufsitem(false,"Eier", "Max"));
-        list.add(new Einkaufsitem(true, "Milch", "Ich"));
-        list.add(new Einkaufsitem(true, "ne Sexpuppe", "WG"));
+        new AsyncTask<Void, Void, List<Item>>(){
+            @Override
+            protected void onPostExecute(List<Item> items) {
+                super.onPostExecute(items);
 
-        //hier in der Einkaufsliste nach checked suchen (Methode kann so bleiben)
-        ArrayList<Einkaufsitem> checkedList = new ArrayList<>();
-        for (Einkaufsitem item: list) {
-            if(item.isChecked()) {
-                checkedList.add(item);
+                if(items != null){
+                    String produkte = String.valueOf(items.size());
+                    String anzeige = context.getString(R.string.anzeige_widget_one) + "\n" + context.getString(R.string.anzeige_widget_two);
+
+                    int counter = 0;
+                    for(Item temp : items){
+                        if(temp.isChecked()){
+                            counter++;
+                        }
+                    }
+
+                    String checkedProdukte = Integer.toString(counter);
+                    String anzeigeChecked = context.getString(R.string.anzeige_widget_detail_korb_one) + "\n" +
+                            context.getString(R.string.anzeige_widget_detail_korb_two);
+
+                    views.setTextViewText(R.id.appwidget_text_detail, anzeige);
+                    views.setTextViewText(R.id.appwidget_text_detail_anzahl, produkte);
+
+                    views.setTextViewText(R.id.appwidget_text_detail_korb_anzahl, checkedProdukte);
+                    views.setTextViewText(R.id.appwidget_text_detail_korb_text, anzeigeChecked);
+
+                    appWidgetManager.updateAppWidget(new ComponentName(context, EinkaufslisteWidget.class), views);
+
+                }
             }
-        }
 
-        //Texte setzen
-        String produkte = String.valueOf(list.size());
-        String anzeige = context.getString(R.string.anzeige_widget_one) + "\n" + context.getString(R.string.anzeige_widget_two);
+            @Override
+            protected List<Item> doInBackground(Void... params) {
+                List<Item> list = null;
+                ListeryDatabase db = ListeryDatabase.getDatabase(context);
+                list = db.mdaoAccess().getItems();
+                return list;
+            }
+        }.execute();
 
-        String checkedProdukte = String.valueOf(checkedList.size());
-        String anzeigeChecked = context.getString(R.string.anzeige_widget_detail_korb_one) + "\n" +
-                context.getString(R.string.anzeige_widget_detail_korb_two);
-
-        views.setTextViewText(R.id.appwidget_text_detail, anzeige);
-        views.setTextViewText(R.id.appwidget_text_detail_anzahl, produkte);
-
-        views.setTextViewText(R.id.appwidget_text_detail_korb_anzahl, checkedProdukte);
-        views.setTextViewText(R.id.appwidget_text_detail_korb_text, anzeigeChecked);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
