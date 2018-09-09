@@ -1,7 +1,11 @@
 package e.rosti.listery;
 
+import android.appwidget.AppWidgetManager;
+import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -148,13 +152,14 @@ public class EinkaufslisteFragment extends Fragment {
 
                 //Deletes item from database
                 mItemViewModel.deleteItem(longClickedItem);
-
+                updateWidgets(getContext());
                 Snackbar mySnackbar = Snackbar.make(view,
                         R.string.snackbar_gelöscht, Snackbar.LENGTH_SHORT);
                 mySnackbar.setAction(R.string.undo_button, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mItemViewModel.insertItem(longClickedItem);
+                        updateWidgets(getContext());
                     }
                 });
                 mySnackbar.show();
@@ -175,6 +180,7 @@ public class EinkaufslisteFragment extends Fragment {
                     Item[] items = new Item[checkedItems.size()];
                     items = checkedItems.toArray(items);
                     mItemViewModel.deleteItems(items);
+                    updateWidgets(getContext());
                     startActivity(intent);
                 }
             }
@@ -243,6 +249,7 @@ public class EinkaufslisteFragment extends Fragment {
             if (!newProduct.equals("")) {
                 Item item = new Item(newProduct,0,selectedMates);
                 mItemViewModel.insertItem(item);
+                updateWidgets(getContext());
                 editProdct.setText("");
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), R.string.toast_produkteingabe, Toast.LENGTH_SHORT).show();
@@ -251,6 +258,17 @@ public class EinkaufslisteFragment extends Fragment {
             Toast.makeText(getActivity().getApplicationContext(), R.string.toast_mitbewohner_auswahl,
                     Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public static void updateWidgets(Context context){
+        Intent intent = new Intent(context.getApplicationContext(),EinkaufslisteWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
+        int[] ids = widgetManager.getAppWidgetIds(new ComponentName(context,EinkaufslisteWidget.class));
+        widgetManager.notifyAppWidgetViewDataChanged(ids,android.R.id.list);
+
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.sendBroadcast(intent);
     }
 
 

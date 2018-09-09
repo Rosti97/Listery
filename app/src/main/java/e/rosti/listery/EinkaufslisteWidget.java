@@ -1,9 +1,11 @@
 package e.rosti.listery;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.RemoteViews;
 
@@ -22,14 +24,13 @@ public class EinkaufslisteWidget extends AppWidgetProvider {
 
         List<Item> allItems = null;
 
-
         new AsyncTask<Void, Void, List<Item>>(){
             @Override
             protected void onPostExecute(List<Item> items) {
                 super.onPostExecute(items);
 
                 if(items != null){
-                    String produkte = "0";//String.valueOf(items.size());
+                    String produkte = String.valueOf(items.size());
                     String anzeige = context.getString(R.string.anzeige_widget_one) + "\n" + context.getString(R.string.anzeige_widget_two);
 
                     views.setTextViewText(R.id.appwidget_text, anzeige);
