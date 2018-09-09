@@ -61,8 +61,8 @@
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 android:layout_gravity="center"
-                 android:text="3"
                 />
+
             <TextView
                 android:id="@+id/appwidget_text_detail"
                 android:layout_width="wrap_content"
@@ -71,7 +71,6 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
-                android:text="Produkte in Liste"
             />
 
         </LinearLayout>
@@ -97,7 +96,6 @@
                 android:textSize="25dp"
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
-                android:text="4"
                 android:layout_gravity="center"
                 />
 
@@ -107,7 +105,6 @@
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:gravity="center"
-                android:text="Produkte \n im Einkaufswagegn"
                 android:textColor="@color/white"
                 android:layout_gravity="center"
                 />
